@@ -44,12 +44,19 @@ namespace GameStateTest.Screens
 
         private int m_iSelectedIndex;
 
-        public int SelectedIndex;
+        public int SelectedIndex
+        {
+            get
+            {
+                return m_iSelectedIndex;
+            }
+        }
 
         private Texture2D m_texSelection;
 
         public MenuScreen(List<string> strMenuItems, string strFilePath, string strFontPath, Vector2 vecPosition )
         {
+            ScreenType = ScreenType.Menu;
             m_strMenuItems = strMenuItems;
             m_strFilePath = strFilePath;
             m_vecTextPosition = vecPosition;
@@ -66,7 +73,7 @@ namespace GameStateTest.Screens
 
             m_sprBatch.Draw(m_texImage, new Vector2(0, 0), Color.White);
 
-            if (m_iSelectedIndex > -1)
+            if (m_iSelectedIndex != -1)
             {
                 m_sprBatch.Draw(m_texSelection, m_lstMenuButtons[m_iSelectedIndex], Color.White);
             }
@@ -95,7 +102,7 @@ namespace GameStateTest.Screens
 
             for (int index = 0; index < m_strMenuItems.Count; index++)
             {
-                m_lstMenuButtons.Add(new Rectangle(0, 
+                m_lstMenuButtons.Add(new Rectangle(5, 
                     Convert.ToInt16(m_vecTextPosition.Y + (m_sprFont.LineSpacing * index)),
                     Convert.ToInt16(m_sprFont.MeasureString(m_strMenuItems[index]).X),
                     Convert.ToInt16(m_sprFont.MeasureString(m_strMenuItems[index]).Y)));
