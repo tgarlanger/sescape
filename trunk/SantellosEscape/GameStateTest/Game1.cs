@@ -25,6 +25,8 @@ namespace GameStateTest
 
         private List<Screen> m_lstGameScreens;
 
+        private SpriteFont m_sprFont;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -44,6 +46,7 @@ namespace GameStateTest
 
             m_lstGameScreens.Add(new MenuScreen(strMenuItems,"GameState/Graphics/Menu/MenuBackground","GameState/Fonts/SpriteFont1",new Vector2(0,140)));
             m_lstGameScreens[0].ScreenState = ScreenState.Active;
+            m_lstGameScreens[0].Name = "Main Menu";
         }
 
         /// <summary>
@@ -74,6 +77,8 @@ namespace GameStateTest
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            m_sprFont = Content.Load<SpriteFont>("GameState/Fonts/SpriteFont1");
 
             foreach (Screen gs in m_lstGameScreens)
             {
@@ -118,6 +123,35 @@ namespace GameStateTest
             {
                 if (gs.ScreenState == ScreenState.Active)
                 {
+                    if (gs.ScreenType == ScreenType.Menu &&
+                         gs.Name == "Main Menu")
+                    {
+                        if (((MenuScreen)gs).SelectedIndex != -1)
+                        {
+                            string strGameName = ((MenuScreen)gs).MenuItems[((MenuScreen)gs).SelectedIndex];
+
+                            bool bGamefound = false;
+
+                            foreach (Screen screen in m_lstGameScreens)
+                            {
+                                if (screen.Name == strGameName)
+                                {
+                                    screen.ScreenState = ScreenState.Active;
+                                    bGamefound = true;
+                                }
+                            }
+
+                            if (!bGamefound)
+                            {
+                                spriteBatch.Begin();
+
+                                spriteBatch.DrawString(m_sprFont,strGameName + " - NoT FouND!",new Vector2(10,400),Color.Black);
+
+                                spriteBatch.End();
+                            }
+                        }
+                    }
+
                     gs.Update(gameTime);
                 }
             }
@@ -139,6 +173,18 @@ namespace GameStateTest
                 if (gs.ScreenState == ScreenState.Active)
                 {
                     gs.Draw(gameTime);
+
+                    if (gs.ScreenType == ScreenType.Menu)
+                    {
+                        if (((MenuScreen)gs).SelectedIndex != -1)
+                        {
+                            spriteBatch.Begin();
+
+                            spriteBatch.DrawString(m_sprFont, ((MenuScreen)gs).MenuItems[((MenuScreen)gs).SelectedIndex], new Vector2(10, 300), Color.Blue);
+                            //spriteBatch.DrawString(m_sprFont, ((MenuScreen)gs).SelectedIndex.ToString(), new Vector2(10, 300), Color.Blue);
+                            spriteBatch.End();
+                        }
+                    }
                 }
             }
 
