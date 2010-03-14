@@ -9,7 +9,7 @@ namespace GameStateTest
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            using (SantellosEscape game = new SantellosEscape())
             {
                 game.Run();
             }
