@@ -18,7 +18,7 @@ namespace GameStateTest
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class SantellosEscape : Microsoft.Xna.Framework.Game
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -27,7 +27,7 @@ namespace GameStateTest
 
         private SpriteFont m_sprFont;
 
-        public Game1()
+        public SantellosEscape()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
