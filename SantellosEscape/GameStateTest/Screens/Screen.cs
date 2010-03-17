@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
 
-namespace GameStateTest.Screens
+namespace SantellosEscape.Screens
 {
     /// <summary>
     /// The possible states of a Screen
