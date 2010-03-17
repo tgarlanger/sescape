@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GameStateTest.Screens
+namespace SantellosEscape.Screens
 {
     class CreditsScreen : Screen
     {

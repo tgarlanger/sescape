@@ -89,6 +89,11 @@
     <Compile Include="SantellosEscape.cs" />
     <Compile Include="Screens\CreditsScreen.cs" />
     <Compile Include="Screens\GameScreen.cs" />
+    <Compile Include="Screens\GameScreens\Falldown\Block.cs" />
+    <Compile Include="Screens\GameScreens\Falldown\FallDown.cs" />
+    <Compile Include="Screens\GameScreens\Falldown\GameObject.cs" />
+    <Compile Include="Screens\GameScreens\Falldown\Player.cs" />
+    <Compile Include="Screens\GameScreens\Falldown\Row.cs" />
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Screens\MenuScreen.cs" />
   </ItemGroup>

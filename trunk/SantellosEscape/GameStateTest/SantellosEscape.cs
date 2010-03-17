@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
-using GameStateTest.Screens;
+using SantellosEscape.Screens;
 
 namespace GameStateTest
 {
@@ -26,6 +26,8 @@ namespace GameStateTest
         private List<Screen> m_lstGameScreens;
 
         private SpriteFont m_sprFont;
+
+        private int m_iActiveScreenIndex;
 
         public SantellosEscape()
         {
@@ -44,9 +46,16 @@ namespace GameStateTest
             strMenuItems.Add("Credits");
             strMenuItems.Add("Quit");
 
+            m_iActiveScreenIndex = 0;
+
             m_lstGameScreens.Add(new MenuScreen(strMenuItems,"GameState/Graphics/Menu/MenuBackground","GameState/Fonts/SpriteFont1",new Vector2(0,140)));
             m_lstGameScreens[0].ScreenState = ScreenState.Active;
             m_lstGameScreens[0].Name = "Main Menu";
+
+            m_lstGameScreens.Add(new FallDown.FallDown());
+            m_lstGameScreens[1].ScreenState = ScreenState.Hidden;
+            m_lstGameScreens[1].ScreenType = ScreenType.Game;
+            m_lstGameScreens[1].Name = "Fall Down";
         }
 
         /// <summary>
@@ -124,7 +133,7 @@ namespace GameStateTest
                 if (gs.ScreenState == ScreenState.Active)
                 {
                     if (gs.ScreenType == ScreenType.Menu &&
-                         gs.Name == "Main Menu")
+                         gs.Name.Equals("Main Menu"))
                     {
                         if (((MenuScreen)gs).SelectedIndex != -1)
                         {
@@ -132,12 +141,16 @@ namespace GameStateTest
 
                             bool bGamefound = false;
 
-                            foreach (Screen screen in m_lstGameScreens)
+                            for ( int index = 0; index < m_lstGameScreens.Count; index++ )
                             {
-                                if (screen.Name == strGameName)
+                                if (m_lstGameScreens[index].Name.Equals(strGameName))
                                 {
-                                    screen.ScreenState = ScreenState.Active;
+                                    m_lstGameScreens[index].ScreenState = ScreenState.Active;
                                     bGamefound = true;
+                                    m_lstGameScreens[m_iActiveScreenIndex].ScreenState = ScreenState.Hidden;
+                                    m_lstGameScreens[index].LoadContent(Content, spriteBatch);
+                                    m_iActiveScreenIndex = index;
+                                    break;
                                 }
                             }
 

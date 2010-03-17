@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 
-namespace GameStateTest.Screens
+namespace SantellosEscape.Screens
 {
     /// <summary>
     /// A MenuScreen Class derived from the base Screen class
