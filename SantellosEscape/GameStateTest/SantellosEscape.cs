@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
 using SantellosEscape.Screens;
+using SantellosEscape.Screens.GameScreens.FallDown;
+using SantellosEscape.Screens.GameScreens.Avoider;
 
 namespace GameStateTest
 {
@@ -52,10 +54,15 @@ namespace GameStateTest
             m_lstGameScreens[0].ScreenState = ScreenState.Active;
             m_lstGameScreens[0].Name = "Main Menu";
 
-            m_lstGameScreens.Add(new FallDown.FallDown());
+            m_lstGameScreens.Add(new FallDown());
             m_lstGameScreens[1].ScreenState = ScreenState.Hidden;
             m_lstGameScreens[1].ScreenType = ScreenType.Game;
             m_lstGameScreens[1].Name = "Fall Down";
+
+            m_lstGameScreens.Add(new Avoider());
+            m_lstGameScreens[2].ScreenState = ScreenState.Hidden;
+            m_lstGameScreens[2].ScreenType = ScreenType.Game;
+            m_lstGameScreens[2].Name = "Avoider";
         }
 
         /// <summary>
