@@ -100,6 +100,10 @@ namespace GameStateTest
             {
                 if (gs.ScreenState == ScreenState.Active)
                 {
+                    if (spriteBatch == null)
+                    {
+                        throw new Exception("spriteBatch is null!");
+                    }
                     gs.LoadContent(Content,spriteBatch);
                 }
             }
@@ -155,7 +159,8 @@ namespace GameStateTest
                                     m_lstGameScreens[index].ScreenState = ScreenState.Active;
                                     bGamefound = true;
                                     m_lstGameScreens[m_iActiveScreenIndex].ScreenState = ScreenState.Hidden;
-                                    m_lstGameScreens[index].LoadContent(Content, spriteBatch);
+                                    //m_lstGameScreens[index].LoadContent(Content, spriteBatch);
+                                    LoadContent();
                                     m_iActiveScreenIndex = index;
                                     break;
                                 }

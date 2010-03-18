@@ -22,6 +22,9 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 
         public Projectile(Texture2D texImage, Vector2 vecPosition, Vector2 vecVelocity)
         {
+            m_texImage = texImage;
+            m_vecPosition = vecPosition;
+            m_vecVelocity = vecVelocity;
         }
 
         public override void Update(GameTime gameTime)
