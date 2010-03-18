@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 using SantellosEscape.Screens;
 
-namespace FallDown
+namespace SantellosEscape.Screens.GameScreens.FallDown
 {
     class FallDown : GameScreen
     {
