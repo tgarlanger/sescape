@@ -46,20 +46,23 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
         {
             base.Update(gameTime);
 
-            if (m_vecPosition.Y > (272 - 5 - m_texImage.Width) ||
-                m_vecPosition.Y < 5)
+            if (m_vecPosition.X > (272 - 5 - m_texImage.Width) ||
+                m_vecPosition.X < 5)
             {
-                m_vecVelocity.Y *= -1;
+                m_vecVelocity.X *= -1;
             }
 
             foreach (Projectile pro in m_lstProjectiles)
             {
                 pro.Update(gameTime);
             }
-
-            if (gameTime.ElapsedGameTime.Seconds % m_iShotFrequency == 0)
+            
+            if (gameTime.TotalGameTime.Milliseconds % m_iShotFrequency == 0)
             {
-                m_lstProjectiles.Add(new Projectile());
+                m_lstProjectiles.Add(new Projectile(
+                    m_lstProjectileTextures[m_rndRand.Next(0,m_lstProjectileTextures.Count)],
+                    m_vecPosition+new Vector2(0,m_texImage.Height+5),
+                    new Vector2(0,m_rndRand.Next(5,15))));
             }
         }
 
@@ -70,6 +73,14 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             foreach (Projectile pro in m_lstProjectiles)
             {
                 pro.Draw(sprBatch);
+            }
+        }
+
+        public void CheckCollisions(ref Player player1)
+        {
+            foreach (Projectile pro in m_lstProjectiles)
+            {
+                pro.CheckCollisions(ref player1);
             }
         }
     }

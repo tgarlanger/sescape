@@ -44,15 +44,15 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
         {
             KeyboardState keyState = Keyboard.GetState();
 
-            if (keyState.IsKeyDown(Keys.Left))
+            if (keyState.IsKeyDown(Keys.Left) && m_vecPosition.X > 2)
             {
                 m_vecVelocity = new Vector2(-5, 0);
             }
-            else if (keyState.IsKeyDown(Keys.Right))
+            else if (keyState.IsKeyDown(Keys.Right) && m_vecPosition.X < (272-2-m_texImage.Width))
             {
                 m_vecVelocity = new Vector2(5, 0);
             }
-            else if (keyState.IsKeyDown(Keys.None))
+            else
             {
                 m_vecVelocity = Vector2.Zero;
             }
