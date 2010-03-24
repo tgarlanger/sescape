@@ -11,13 +11,11 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
-namespace SantellosEscape.Screens.GameScreens.FallDown
+namespace FallDown
 {
     class Player : GameObject
     {
-        public bool isAlive {get; set;}
-        public bool isColliding { get; set; }
-        private int movementSpeed = 3;
+        public int movementSpeed = 3;
 
         public void Update()
         {
@@ -36,6 +34,15 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
                     Position = newPosition;
             }
 
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Texture2D t)
+        {
+            spriteBatch.Draw(t, new Vector2(Position.X, Position.Y + 20), Color.White);
+        }
+        public Rectangle getBounds()
+        {
+            return new Rectangle((int)Position.X, (int)Position.Y + 30, Texture.Width, 10);
         }
     }
 }
