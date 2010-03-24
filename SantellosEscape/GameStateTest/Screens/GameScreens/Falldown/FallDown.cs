@@ -2,71 +2,93 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 using SantellosEscape.Screens;
 
-namespace SantellosEscape.Screens.GameScreens.FallDown
+namespace FallDown
 {
     class FallDown : GameScreen
     {
-        Player player;
-        List<Row> rows;
-        List<GameObject> powerUps;
+        private Player player;
+        private List<Row> rows;
+        private List<GameObject> GameObjects;
+        private GameObject BackButton;
 
-        int score;
-        int gameBegin;
-        int HighScore;
+        private int score;
+        private int gameBegin;
+        private int bonus;
+        public int HighScore;
 
-        string PlayState;
-        SpriteFont scoreFont;
+        private string PlayState;
+        private SpriteFont scoreFont;
+        private Texture2D Menu;
 
-        float ScrollSpeed = -1;
-        float ScrollIncreaseRate = -0.0005f;
-        float Gravity = 5;
+        private float ScrollSpeed = -1;
+        private float ScrollIncreaseRate = -0.0005f;
+        private float Gravity = 5;
 
-        Texture2D m_texBackground;
+        private bool powerAdded;
+        private bool firstRun;
+        GameObject[] Background;
+
+        private Texture2D cursor;
 
         public FallDown()
         {
             player = new Player();
+            player.Active = true;
+            player.Visible = true;
+            player.Value = "Player";
             player.Position = Vector2.One;
 
-            powerUps = new List<GameObject>();
-            loadPowerups();
+            Background = new GameObject[2];
+            Background[0] = new GameObject();
+            Background[0].Position = Vector2.Zero;
+            Background[1] = new GameObject();
+            Background[1].Position = new Vector2(0, 480);
 
-            score = 0;
+            BackButton = new GameObject();
+            BackButton.Position = new Vector2(0, 480 - 50);
+
+            GameObjects = new List<GameObject>();
+            loadPowerups();
+            GameObjects.Add(player);
+
             gameBegin = 0;
             HighScore = 0;
+            bonus = 0;
 
-            PlayState = "Game";
+            firstRun = true;
+            PlayState = "Menu";
 
             rows = new List<Row>();
 
+            Random r = new Random();
             for (int i = 0; i < 5; i++)
             {
                 Row row = new Row();
                 row.YPosition = i * 100 + 300;
-                row.CreateBlocks();
+                row.CreateBlocks(r);
+                row.Randomize(r);
                 rows.Add(row);
             }
         }
 
         private void resetGame()
         {
-            score = 0;
+            bonus = 0;
             ScrollSpeed = -1;
             player.Position = Vector2.One;
+            Random r = new Random();
             for (int i = 0; i < 5; i++)
             {
                 rows[i].YPosition = i * 100 + 300;
-                rows[i].Randomize();
+                rows[i].Randomize(r);
             }
             PlayState = "Game";
-
         }
 
         public override void LoadContent(Microsoft.Xna.Framework.Content.ContentManager Content, SpriteBatch sprBatch)
@@ -74,14 +96,18 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
             m_sprBatch = sprBatch;
 
             scoreFont = Content.Load<SpriteFont>("Falldown/ScoreFont");
-            player.Texture = Content.Load<Texture2D>("Falldown/player");
-            powerUps[0].Texture = Content.Load<Texture2D>("Falldown/freeze");
-            powerUps[1].Texture = Content.Load<Texture2D>("Falldown/player");
-            powerUps[2].Texture = Content.Load<Texture2D>("Falldown/drill");
-            powerUps[3].Texture = Content.Load<Texture2D>("Falldown/score");
-            Texture2D blockTexture = Content.Load<Texture2D>("Falldown/block");
-
-            m_texBackground = Content.Load<Texture2D>("Falldown/background");
+            player.Texture = Content.Load<Texture2D>("Falldown/player2");
+            GameObjects[0].Texture = Content.Load<Texture2D>("Falldown/freeze2");
+            GameObjects[1].Texture = Content.Load<Texture2D>("Falldown/speed");
+            GameObjects[2].Texture = Content.Load<Texture2D>("Falldown/drill2");
+            GameObjects[3].Texture = Content.Load<Texture2D>("Falldown/score2");
+            Texture2D blockTexture = Content.Load<Texture2D>("Falldown/block2");
+            Menu = Content.Load<Texture2D>("Falldown/menu");
+            BackButton.Texture = Content.Load<Texture2D>("Falldown/arrow");
+            cursor = Content.Load<Texture2D>("Falldown/cursor");
+            Texture2D backGroundTexture = Content.Load<Texture2D>("Falldown/background3");
+            Background[0].Texture = backGroundTexture;
+            Background[1].Texture = backGroundTexture;
 
             foreach (Row row in rows)
             {
@@ -89,42 +115,9 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
                 {
                     block.texture = blockTexture;
                 }
-                row.Randomize();
             }
 
             base.LoadContent(Content, sprBatch);
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            if (PlayState == "Game")
-            {
-                HandleCollisions(gameTime);
-                HandlePowerups(gameTime);
-
-                player.Update();
-
-                ScrollSpeed += ScrollIncreaseRate;
-
-                score = gameTime.TotalRealTime.Seconds;
-                score += gameTime.TotalRealTime.Minutes * 60;
-                score -= gameBegin;
-                score *= 10;
-            }
-            else if (PlayState == "Menu")
-            {
-                if (score > HighScore)
-                    HighScore = score;
-                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                {
-                    gameBegin = gameTime.TotalRealTime.Seconds + (gameTime.TotalRealTime.Minutes * 60);
-                    resetGame();
-                }
-            }
-            if (PlayState == "Game" && score % 50 == 0 && score != 0)
-                addPowerup();
-
-            base.Update(gameTime);
         }
 
         private void loadPowerups()
@@ -132,37 +125,191 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
             GameObject freezePowerup = new GameObject();
             freezePowerup.Visible = false;
             freezePowerup.Value = "freeze";
-            freezePowerup.Duration = 2;
-            powerUps.Add(freezePowerup);
+            freezePowerup.Duration = 3;
+            GameObjects.Add(freezePowerup);
 
             GameObject speedPowerup = new GameObject();
             speedPowerup.Visible = false;
             speedPowerup.Value = "speed";
-            speedPowerup.Duration = 2;
-            powerUps.Add(speedPowerup);
+            speedPowerup.Duration = 3;
+            GameObjects.Add(speedPowerup);
 
             GameObject drillPowerup = new GameObject();
             drillPowerup.Visible = false;
             drillPowerup.Value = "drill";
             drillPowerup.Duration = 2;
-            powerUps.Add(drillPowerup);
+            GameObjects.Add(drillPowerup);
 
             GameObject scorePowerup = new GameObject();
             scorePowerup.Visible = false;
             scorePowerup.Value = "score";
-            powerUps.Add(scorePowerup);
+            GameObjects.Add(scorePowerup);
 
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            if (PlayState == "Game")
+            {
+                HandleRows(gameTime);
+                HandlePowerups(gameTime);
+
+                if (!GameObjects[0].Active)
+                {
+                    Background[0].scroll(ScrollSpeed);
+                    Background[1].scroll(ScrollSpeed);
+                }
+                //speed item dictates movement and gravity
+                if (GameObjects[1].Active)
+                {
+                    Gravity = 10;
+                    player.movementSpeed = 6;
+                }
+                else
+                {
+                    Gravity = 5;
+                    player.movementSpeed = 3;
+                }
+                //player can't move while drill is active
+                if (!GameObjects[2].Active)
+                    player.Update();
+
+                ScrollSpeed += ScrollIncreaseRate;
+
+                score = gameTime.TotalRealTime.Seconds;
+                score += gameTime.TotalRealTime.Minutes * 60;
+                score -= gameBegin;
+                score *= 10;
+                score += bonus;
+
+                if (gameTime.TotalRealTime.Seconds % 10 == 0 && gameTime.TotalRealTime.Seconds != 0 && !powerAdded)
+                {
+                    addPowerup();
+                    powerAdded = true;
+                }
+                if (gameTime.TotalRealTime.Seconds % 11 == 0 && gameTime.TotalRealTime.Seconds != 0 && powerAdded)
+                    powerAdded = false;
+
+            }
+            else if (PlayState == "Menu")
+            {
+                if (score > HighScore)
+                    HighScore = score;
+
+                if (BackButton.BoundingRectangle.Intersects(new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 1, 1)) && Mouse.GetState().LeftButton == ButtonState.Pressed)
+                {
+                    ScreenState = ScreenState.Hidden;
+                }
+                if (Mouse.GetState().LeftButton == ButtonState.Pressed && !firstRun)
+                {
+                    gameBegin = gameTime.TotalRealTime.Seconds + (gameTime.TotalRealTime.Minutes * 60);
+                    resetGame();
+                }
+            }
+            //Ensure game doesn't start until player sees the menu
+            if (Mouse.GetState().LeftButton == ButtonState.Released)
+                firstRun = false;
+
+            base.Update(gameTime);
+        }
+
+        //adds a random power up at the bottom of the screen in a random position
         private void addPowerup()
         {
             Random rand = new Random();
-            int powerUpIndex = rand.Next(0, 4);
+            int powerUpIndex = rand.Next(0, 5);
 
-            if (!powerUps[powerUpIndex].Visible)
+            if (!GameObjects[powerUpIndex].Visible)
             {
-                powerUps[powerUpIndex].Visible = true;
-                powerUps[powerUpIndex].Position = new Vector2(rand.Next(0, 272 - powerUps[powerUpIndex].Texture.Width), 460);
+                GameObjects[powerUpIndex].Visible = true;
+                GameObjects[powerUpIndex].Position = new Vector2(rand.Next(0, 272 - GameObjects[powerUpIndex].Texture.Width), 480 - GameObjects[powerUpIndex].Texture.Width);
+            }
+        }
+
+
+        //Scrolls rows, player and any game objects that are visible
+        private void HandleRows(GameTime gameTime)
+        {
+            foreach (GameObject gObject in GameObjects)
+            {
+                gObject.isColliding = false;
+                gObject.tempYpos = 0;
+            }
+            foreach (Row row in rows)
+            {
+                //rows will not update during freeze
+                if (!GameObjects[0].Active)
+                    row.Update(ScrollSpeed);
+
+                foreach (Block block in row.blocks)
+                {
+                    foreach (GameObject gObject in GameObjects)
+                    {
+                        if (gObject.Visible && gObject.Value != "Player")
+                        {
+                            if (gObject.BoundingRectangle.Intersects(block.boundingRectangle) && !block.isEmpty && row.YPosition > gObject.Position.Y)
+                            {
+                                gObject.isColliding = true;
+                                gObject.tempYpos = row.YPosition - gObject.Texture.Height + 1;
+                            }
+                        }
+                    }
+                    if (player.getBounds().Intersects(block.boundingRectangle) && !block.isEmpty && row.YPosition > player.Position.Y)
+                    {
+                        //Destroys block during drill
+                        if (GameObjects[2].Active)
+                        {
+                            block.isEmpty = true;
+                        }
+                        else
+                        {
+                            player.isColliding = true;
+                            player.tempYpos = row.YPosition - player.Texture.Height + 1;
+                        }
+                    }
+                }
+            }
+            //sets the new position using appropriate collision and clamping
+            foreach (GameObject gObject in GameObjects)
+            {
+                if (gObject.isColliding)
+                    gObject.Position = new Vector2(gObject.Position.X, gObject.tempYpos);
+                else
+                    gObject.Position = new Vector2(gObject.Position.X, gObject.Position.Y + Gravity);
+
+                if (gObject.Position.Y > 480 - gObject.Texture.Height)
+                    gObject.Position = new Vector2(gObject.Position.X, 480 - gObject.Texture.Height);
+                //Ends Current Game if player hits top
+                if (gObject.Position.Y < 0 && gObject.Value == "Player")
+                    PlayState = "Menu";
+                if (gObject.Position.Y < 0 - gObject.Texture.Height)
+                    gObject.Visible = false;
+            }
+
+        }
+        //activates and deactivates powerups based on collisions and durations
+        private void HandlePowerups(GameTime gameTime)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if (player.BoundingRectangle.Intersects(GameObjects[i].BoundingRectangle) && GameObjects[i].Visible)
+                {
+                    //Score Item will never be active
+                    if (i != 3)
+                        GameObjects[i].Active = true;
+                    else
+                        bonus += 150;
+
+                    GameObjects[i].Visible = false;
+                    GameObjects[i].StartTime = gameTime.TotalRealTime.Seconds + gameTime.TotalRealTime.Minutes * 60;
+                }
+                if (GameObjects[i].Active)
+                {
+                    //turn off power once its duration is over
+                    if ((gameTime.TotalRealTime.Seconds + gameTime.TotalRealTime.Minutes * 60) - GameObjects[i].StartTime >= GameObjects[i].Duration)
+                        GameObjects[i].Active = false;
+                }
+
             }
         }
 
@@ -170,115 +317,42 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
         {
             m_sprBatch.Begin();
 
-            m_sprBatch.Draw(m_texBackground, Vector2.Zero, Color.White);
-
-            player.Draw(m_sprBatch);
+            Background[0].Draw(m_sprBatch);
+            Background[1].Draw(m_sprBatch);
+            //replace player sprite if drill is active
+            if (GameObjects[2].Active)
+                player.Draw(m_sprBatch, GameObjects[2].Texture);
+            else
+                player.Draw(m_sprBatch);
 
             foreach (Row row in rows)
             {
                 row.Draw(m_sprBatch);
             }
 
-            foreach (GameObject powerup in powerUps)
+            foreach (GameObject powerup in GameObjects)
             {
-                if (powerup.Visible)
+                if (powerup.Visible && powerup.Value != "Player")
                     powerup.Draw(m_sprBatch);
             }
 
-            m_sprBatch.DrawString(scoreFont, "Score: " + score.ToString(), new Vector2(160, 430), Color.Yellow);
+            m_sprBatch.DrawString(scoreFont, "Score: " + score.ToString(), new Vector2(160, 450), Color.DarkRed);
 
             if (PlayState == "Menu")
             {
                 DrawMenu();
+                m_sprBatch.Draw(cursor, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.White);
             }
             m_sprBatch.End();
 
             base.Draw(gameTime);
         }
 
-        private void HandleCollisions(GameTime gameTime)
-        {
-            Vector2 newPosition;
-
-            bool colliding = false;
-            float yPos = 0;
-
-            foreach (Row row in rows)
-            {
-                if (!powerUps[0].Active)
-                    row.Update(ScrollSpeed);
-
-                foreach (Block block in row.blocks)
-                {
-                    if (player.BoundingRectangle.Intersects(block.boundingRectangle) && !block.isEmpty && row.YPosition > player.Position.Y)
-                    {
-                        colliding = true;
-                        yPos = row.YPosition - player.Texture.Height + 1;
-                    }
-                    foreach (GameObject powerup in powerUps)
-                    {
-                        if (powerup.Visible)
-                        {
-                            if (powerup.BoundingRectangle.Intersects(block.boundingRectangle) && !block.isEmpty)
-                            {
-                                powerup.Position = new Vector2(powerup.Position.X, row.YPosition - powerup.Texture.Height + 1);
-                                if (powerup.Position.Y < 0)
-                                    powerup.Visible = false;
-                            }
-                            else
-                                powerup.Position = new Vector2(powerup.Position.X, powerup.Position.Y + Gravity);
-
-                            if (powerup.Position.Y >= 480 - powerup.Texture.Height)
-                                powerup.Position = new Vector2(powerup.Position.X, 480 - powerup.Texture.Height);
-                        }
-                    }
-                }
-            }
-
-            if (colliding)
-                newPosition = new Vector2(player.Position.X, yPos);
-            else
-                newPosition = new Vector2(player.Position.X, player.Position.Y + Gravity);
-
-            if (newPosition.Y < 480 - player.Texture.Height)
-                player.Position = newPosition;
-
-            foreach (GameObject power in powerUps)
-            {
-                if (power.Visible)
-                {
-                    if (player.BoundingRectangle.Intersects(power.BoundingRectangle))
-                    {
-                        if (power.Value == "score")
-                            score += 50;
-                        else
-                        {
-                            power.Active = true;
-                            power.StartTime = gameTime.ElapsedRealTime.Seconds;
-                        }
-                    }
-                }
-            }
-
-            if (newPosition.Y < 0)
-                PlayState = "Menu";
-        }
-
-        private void HandlePowerups(GameTime gameTime)
-        {
-            foreach (GameObject power in powerUps)
-            {
-                if (power.Active)
-                    if (gameTime.ElapsedRealTime.Seconds - power.StartTime == power.Duration)
-                        power.Active = false;
-
-            }
-        }
-
         private void DrawMenu()
         {
-            m_sprBatch.DrawString(scoreFont, "High Score: " + HighScore.ToString(), new Vector2(50, 100), Color.Yellow);
-            m_sprBatch.DrawString(scoreFont, "Tap to continue...", new Vector2(25, 200), Color.Red);
+            m_sprBatch.DrawString(scoreFont, "High Score: " + HighScore.ToString(), new Vector2(70, 375), Color.DarkRed);
+            m_sprBatch.Draw(Menu, Vector2.Zero, Color.White);
+            m_sprBatch.Draw(BackButton.Texture, BackButton.Position, Color.White);
         }
     }
 }

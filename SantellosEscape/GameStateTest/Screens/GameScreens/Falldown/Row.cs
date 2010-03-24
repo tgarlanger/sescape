@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
-namespace SantellosEscape.Screens.GameScreens.FallDown
+namespace FallDown
 {
     class Row
     {
@@ -23,11 +23,10 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
             blocks = new List<Block>();
         }
 
-        public void CreateBlocks()
+        public void CreateBlocks(Random r)
         {
             blocks = new List<Block>();
-            Random random = new Random();
-            int numGaps = random.Next(2, 3);
+            int numGaps = r.Next(1, 3);
 
             for (int i = 0; i < 8; i++)
             {
@@ -37,20 +36,20 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
                 blocks.Add(block);
             }
             for (int j = 0; j < numGaps; j++)
-                blocks[random.Next(0, 7)].isEmpty = true;
+                blocks[r.Next(0, 7)].isEmpty = true;
         }
 
-        public void Randomize()
+        public void Randomize(Random r)
         {
             Random random = new Random();
-            int numGaps = random.Next(2,3);
+            int numGaps = r.Next(1, 3);
 
             foreach (Block block in blocks)
                 block.isEmpty = false;
 
             for (int i = 0; i < numGaps; i++)
             {
-                blocks[random.Next(0, 7)].isEmpty = true;
+                blocks[r.Next(0, 7)].isEmpty = true;
             }
 
         }
@@ -58,10 +57,11 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
         public void Update(float scrollSpeed)
         {
             YPosition = YPosition + scrollSpeed;
+            Random r = new Random();
             if (YPosition < -17)
             {
                 YPosition = 480;
-                Randomize();
+                Randomize(r);
             }
 
             foreach (Block block in blocks)
@@ -74,7 +74,7 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
         {
             foreach (Block block in blocks)
             {
-                if(!block.isEmpty)
+                if (!block.isEmpty)
                     block.Draw(spriteBatch);
             }
         }

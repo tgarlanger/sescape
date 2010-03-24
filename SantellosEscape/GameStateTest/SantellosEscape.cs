@@ -12,8 +12,6 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
 using SantellosEscape.Screens;
-using SantellosEscape.Screens.GameScreens.FallDown;
-using SantellosEscape.Screens.GameScreens.Avoider;
 
 namespace GameStateTest
 {
@@ -50,19 +48,14 @@ namespace GameStateTest
 
             m_iActiveScreenIndex = 0;
 
-            m_lstGameScreens.Add(new MenuScreen(strMenuItems,"GameState/Graphics/Menu/MenuBackground","GameState/Fonts/SpriteFont1",new Vector2(0,140)));
+            m_lstGameScreens.Add(new MenuScreen(strMenuItems, "GameState/Graphics/Menu/MenuBackground", "GameState/Fonts/SpriteFont1", new Vector2(0, 140)));
             m_lstGameScreens[0].ScreenState = ScreenState.Active;
             m_lstGameScreens[0].Name = "Main Menu";
 
-            m_lstGameScreens.Add(new FallDown());
+            m_lstGameScreens.Add(new FallDown.FallDown());
             m_lstGameScreens[1].ScreenState = ScreenState.Hidden;
             m_lstGameScreens[1].ScreenType = ScreenType.Game;
             m_lstGameScreens[1].Name = "Fall Down";
-
-            m_lstGameScreens.Add(new Avoider());
-            m_lstGameScreens[2].ScreenState = ScreenState.Hidden;
-            m_lstGameScreens[2].ScreenType = ScreenType.Game;
-            m_lstGameScreens[2].Name = "Avoider";
         }
 
         /// <summary>
@@ -100,11 +93,7 @@ namespace GameStateTest
             {
                 if (gs.ScreenState == ScreenState.Active)
                 {
-                    if (spriteBatch == null)
-                    {
-                        throw new Exception("spriteBatch is null!");
-                    }
-                    gs.LoadContent(Content,spriteBatch);
+                    gs.LoadContent(Content, spriteBatch);
                 }
             }
 
@@ -139,10 +128,12 @@ namespace GameStateTest
                 this.Exit();
 
             // TODO: Add your update logic here
+            bool anyGameActive = false;
             foreach (Screen gs in m_lstGameScreens)
             {
                 if (gs.ScreenState == ScreenState.Active)
                 {
+                    anyGameActive = true;
                     if (gs.ScreenType == ScreenType.Menu &&
                          gs.Name.Equals("Main Menu"))
                     {
@@ -152,15 +143,14 @@ namespace GameStateTest
 
                             bool bGamefound = false;
 
-                            for ( int index = 0; index < m_lstGameScreens.Count; index++ )
+                            for (int index = 0; index < m_lstGameScreens.Count; index++)
                             {
                                 if (m_lstGameScreens[index].Name.Equals(strGameName))
                                 {
                                     m_lstGameScreens[index].ScreenState = ScreenState.Active;
                                     bGamefound = true;
                                     m_lstGameScreens[m_iActiveScreenIndex].ScreenState = ScreenState.Hidden;
-                                    //m_lstGameScreens[index].LoadContent(Content, spriteBatch);
-                                    LoadContent();
+                                    m_lstGameScreens[index].LoadContent(Content, spriteBatch);
                                     m_iActiveScreenIndex = index;
                                     break;
                                 }
@@ -170,16 +160,17 @@ namespace GameStateTest
                             {
                                 spriteBatch.Begin();
 
-                                spriteBatch.DrawString(m_sprFont,strGameName + " - NoT FouND!",new Vector2(10,400),Color.Black);
+                                spriteBatch.DrawString(m_sprFont, strGameName + " - NoT FouND!", new Vector2(10, 400), Color.Black);
 
                                 spriteBatch.End();
                             }
                         }
                     }
-
                     gs.Update(gameTime);
                 }
             }
+            if (!anyGameActive)
+                m_lstGameScreens[0].ScreenState = ScreenState.Active;
 
             base.Update(gameTime);
         }

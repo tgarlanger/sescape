@@ -11,13 +11,13 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
-namespace SantellosEscape.Screens.GameScreens.FallDown
+namespace FallDown
 {
     class Block
     {
         public Texture2D texture { get; set; }
         public Vector2 position { get; set; }
-        public Rectangle boundingRectangle { get { return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height); }}
+        public Rectangle boundingRectangle { get { return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height); } }
         public bool isEmpty { get; set; }
 
         public Block()
@@ -27,7 +27,7 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, Color.Black); 
+            spriteBatch.Draw(texture, position, Color.White);
         }
     }
 }
