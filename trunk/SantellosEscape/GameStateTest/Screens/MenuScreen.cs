@@ -138,7 +138,7 @@ namespace SantellosEscape.Screens
 
             for ( int index = 0; index < m_strMenuItems.Count; index++ )
             {
-                m_sprBatch.DrawString(m_sprFont, m_strMenuItems[index], m_vecTextPosition+new Vector2(5,m_sprFont.LineSpacing*index), Color.Black);
+                m_sprBatch.DrawString(m_sprFont, m_strMenuItems[index], m_vecTextPosition + new Vector2(5, 5 + m_sprFont.MeasureString(m_strMenuItems[index]).Y * index), Color.Black);
             }
 
             m_sprBatch.Draw(m_texPointer, new Vector2(m_recMouse.X,m_recMouse.Y), Color.White);
@@ -166,7 +166,7 @@ namespace SantellosEscape.Screens
             for (int index = 0; index < m_strMenuItems.Count; index++)
             {
                 m_lstMenuButtons.Add(new Rectangle(5, 
-                    Convert.ToInt16(m_vecTextPosition.Y + (m_sprFont.LineSpacing * index)),
+                    Convert.ToInt16(m_vecTextPosition.Y + 5 + (m_sprFont.MeasureString(m_strMenuItems[index]).Y * index)),
                     Convert.ToInt16(m_sprFont.MeasureString(m_strMenuItems[index]).X),
                     Convert.ToInt16(m_sprFont.MeasureString(m_strMenuItems[index]).Y)));
             }
@@ -188,7 +188,7 @@ namespace SantellosEscape.Screens
             {
                 foreach (Rectangle rec in m_lstMenuButtons)
                 {
-                    if (rec.Intersects(m_recMouse))
+                    if (m_recMouse.Intersects(rec))
                     {
                         m_iSelectedIndex = Convert.ToInt16((m_recMouse.Y - m_vecTextPosition.Y) / m_sprFont.LineSpacing);
                     }

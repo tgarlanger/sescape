@@ -54,6 +54,11 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 
             foreach (Projectile pro in m_lstProjectiles)
             {
+                if (pro.Bounds.Y > 480)
+                {
+                    m_lstProjectiles.Remove(pro);
+                    continue;
+                }
                 pro.Update(gameTime);
             }
             
