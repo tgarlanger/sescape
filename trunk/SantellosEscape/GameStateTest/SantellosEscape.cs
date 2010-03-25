@@ -12,6 +12,9 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
 using SantellosEscape.Screens;
+using SantellosEscape.Screens.GameScreens.ShooterGallery;
+using SantellosEscape.Screens.GameScreens.FallDown;
+using SantellosEscape.Screens.GameScreens.Avoider;
 
 namespace GameStateTest
 {
@@ -50,12 +53,23 @@ namespace GameStateTest
 
             m_lstGameScreens.Add(new MenuScreen(strMenuItems, "GameState/Graphics/Menu/MenuBackground", "GameState/Fonts/SpriteFont1", new Vector2(0, 140)));
             m_lstGameScreens[0].ScreenState = ScreenState.Active;
+            m_lstGameScreens[0].ScreenType = ScreenType.Menu;
             m_lstGameScreens[0].Name = "Main Menu";
 
-            m_lstGameScreens.Add(new FallDown.FallDown());
+            m_lstGameScreens.Add( new Avoider());
             m_lstGameScreens[1].ScreenState = ScreenState.Hidden;
             m_lstGameScreens[1].ScreenType = ScreenType.Game;
-            m_lstGameScreens[1].Name = "Fall Down";
+            m_lstGameScreens[1].Name = "Avoider";
+
+            m_lstGameScreens.Add(new FallDown());
+            m_lstGameScreens[2].ScreenState = ScreenState.Hidden;
+            m_lstGameScreens[2].ScreenType = ScreenType.Game;
+            m_lstGameScreens[2].Name = "Fall Down";
+
+            m_lstGameScreens.Add(new ShooterGallery());
+            m_lstGameScreens[3].ScreenState = ScreenState.Hidden;
+            m_lstGameScreens[3].ScreenType = ScreenType.Game;
+            m_lstGameScreens[3].Name = "Shooting Gallery";
         }
 
         /// <summary>
@@ -150,6 +164,23 @@ namespace GameStateTest
                                     m_lstGameScreens[index].ScreenState = ScreenState.Active;
                                     bGamefound = true;
                                     m_lstGameScreens[m_iActiveScreenIndex].ScreenState = ScreenState.Hidden;
+
+                                    if (m_lstGameScreens[index].ScreenOrientation != m_lstGameScreens[m_iActiveScreenIndex].ScreenOrientation)
+                                    {
+                                        switch (m_lstGameScreens[index].ScreenOrientation)
+                                        {
+                                            case ScreenOrientation.Landscape:
+                                                graphics.PreferredBackBufferHeight = 272;
+                                                graphics.PreferredBackBufferWidth = 480;
+                                                graphics.ApplyChanges();
+                                                break;
+                                            case ScreenOrientation.Portrait:
+                                                graphics.PreferredBackBufferHeight = 480;
+                                                graphics.PreferredBackBufferWidth = 272;
+                                                graphics.ApplyChanges();
+                                                break;
+                                        }
+                                    }
                                     m_lstGameScreens[index].LoadContent(Content, spriteBatch);
                                     m_iActiveScreenIndex = index;
                                     break;

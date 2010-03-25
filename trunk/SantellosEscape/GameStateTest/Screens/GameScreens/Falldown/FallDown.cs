@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework.Input;
 
 using SantellosEscape.Screens;
 
-namespace FallDown
+namespace SantellosEscape.Screens.GameScreens.FallDown
 {
-    class FallDown : GameScreen
+    public class FallDown : GameScreen
     {
         private Player player;
         private List<Row> rows;
@@ -75,6 +75,8 @@ namespace FallDown
                 row.Randomize(r);
                 rows.Add(row);
             }
+
+            ScreenOrientation = ScreenOrientation.Portrait;
         }
 
         private void resetGame()
