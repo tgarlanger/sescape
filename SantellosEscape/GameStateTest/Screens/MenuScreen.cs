@@ -119,6 +119,8 @@ namespace SantellosEscape.Screens
             m_iSelectedIndex = -1;
 
             m_lstMenuButtons = new List<Rectangle>();
+
+            ScreenOrientation = ScreenOrientation.Portrait;
         }
 
         /// <summary>

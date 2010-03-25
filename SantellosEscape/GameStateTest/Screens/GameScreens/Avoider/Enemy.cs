@@ -52,6 +52,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
                 m_vecVelocity.X *= -1;
             }
 
+            /*
             foreach (Projectile pro in m_lstProjectiles)
             {
                 if (pro.Bounds.Y > 480)
@@ -60,6 +61,17 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
                     continue;
                 }
                 pro.Update(gameTime);
+            }
+             * */
+            for (int index = 0; index < m_lstProjectiles.Count; index++)
+            {
+                if (m_lstProjectiles[index].Bounds.Y > 480)
+                {
+                    m_lstProjectiles.RemoveAt(index);
+                    continue;
+                }
+
+                m_lstProjectiles[index].Update(gameTime);
             }
             
             if (gameTime.TotalGameTime.Milliseconds % m_iShotFrequency == 0)

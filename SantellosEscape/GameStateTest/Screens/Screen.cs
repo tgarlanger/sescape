@@ -28,6 +28,16 @@ namespace SantellosEscape.Screens
         Menu, Credits, Game
     }
 
+    
+    /// <summary>
+    /// Possible Screen Orientations
+    /// </summary>
+    /// <seealso cref="Screen"/>
+    public enum ScreenOrientation
+    {
+        Landscape, Portrait
+    }
+
     /// <summary>
     /// A base Screen class
     /// 
@@ -74,6 +84,27 @@ namespace SantellosEscape.Screens
             set
             {
                 m_screenType = value;
+            }
+        }
+
+        /// <summary>
+        /// The Orientation of the screen
+        /// </summary>
+        private ScreenOrientation m_screenOrientation;
+
+        /// <summary>
+        /// Gets or sets the screen orientation.
+        /// </summary>
+        /// <value>The screen orientation.</value>
+        public ScreenOrientation ScreenOrientation
+        {
+            get
+            {
+                return m_screenOrientation;
+            }
+            set
+            {
+                m_screenOrientation = value;
             }
         }
 

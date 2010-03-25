@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
@@ -44,6 +43,8 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             m_iNextAddEnemy = 1500;
 
             m_rndRand = new Random(5280);
+
+            ScreenOrientation = ScreenOrientation.Portrait;
         }
 
         /// <summary>

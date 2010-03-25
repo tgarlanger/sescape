@@ -5,8 +5,8 @@ using System.Text;
 
 namespace SantellosEscape.Screens
 {
-    class GameScreen : Screen
-    {
+    public class GameScreen : Screen
+    {        
         public GameScreen()
         {
 

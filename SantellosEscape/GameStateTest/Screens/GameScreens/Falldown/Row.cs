@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 
-namespace FallDown
+namespace SantellosEscape.Screens.GameScreens.FallDown
 {
     class Row
     {
