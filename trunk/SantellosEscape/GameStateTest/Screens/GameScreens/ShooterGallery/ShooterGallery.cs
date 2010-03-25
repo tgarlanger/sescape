@@ -71,12 +71,12 @@ namespace SantellosEscape.Screens.GameScreens.ShooterGallery
             //rec1.LoadContent();
             // TODO: use this.Content to load your game content here
 
-            m_ReticuleTex = Content.Load<Texture2D>("Items/reticule");
-            TableTex = Content.Load<Texture2D>("Items/Tablebar");
-            comp1[0] = Content.Load<Texture2D>("Items/computer");
-            comp1[1] = Content.Load<Texture2D>("Items/computer");
-            comp1[2] = Content.Load<Texture2D>("Items/computer");
-            comp1[3] = Content.Load<Texture2D>("Items/computer");
+            m_ReticuleTex = Content.Load<Texture2D>("ShooterGallery/Items/reticule");
+            TableTex = Content.Load<Texture2D>("ShooterGallery/Items/Tablebar");
+            comp1[0] = Content.Load<Texture2D>("ShooterGallery/Items/computer");
+            comp1[1] = Content.Load<Texture2D>("ShooterGallery/Items/computer");
+            comp1[2] = Content.Load<Texture2D>("ShooterGallery/Items/computer");
+            comp1[3] = Content.Load<Texture2D>("ShooterGallery/Items/computer");
 
             m_texBackground = Content.Load<Texture2D>("ShooterGallery/background");
         }
