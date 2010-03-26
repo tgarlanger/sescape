@@ -15,7 +15,7 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
 {
     class Block
     {
-        public Texture2D texture { get; set; }
+        public static Texture2D texture { get; set; }
         public Vector2 position { get; set; }
         public Rectangle boundingRectangle { get { return new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height); } }
         public bool isEmpty { get; set; }
