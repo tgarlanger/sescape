@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 using SantellosEscape.Screens;
 
@@ -27,14 +29,19 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
         private Texture2D Menu;
 
         private float ScrollSpeed = -1;
-        private float ScrollIncreaseRate = -0.0005f;
+        private float PowerSpawnRate = 15;
         private float Gravity = 5;
 
-        private bool powerAdded;
+        private const float ScrollIncreaseRate = -0.0005f;
+        private const float PowerIncreaseRate = -0.002f;
+
         private bool firstRun;
         GameObject[] Background;
 
         private Texture2D cursor;
+        private List<SoundEffect> SoundEffects;
+
+        int rad;
 
         public FallDown()
         {
@@ -48,7 +55,7 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
             Background[0] = new GameObject();
             Background[0].Position = Vector2.Zero;
             Background[1] = new GameObject();
-            Background[1].Position = new Vector2(0, 480);
+            Background[1].Position = new Vector2(0, 485);
 
             BackButton = new GameObject();
             BackButton.Position = new Vector2(0, 480 - 50);
@@ -75,14 +82,16 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
                 row.Randomize(r);
                 rows.Add(row);
             }
-
             ScreenOrientation = ScreenOrientation.Portrait;
+
+            SoundEffects = new List<SoundEffect>();
         }
 
         private void resetGame()
         {
             bonus = 0;
             ScrollSpeed = -1;
+            PowerSpawnRate = 15;
             player.Position = Vector2.One;
             Random r = new Random();
             for (int i = 0; i < 5; i++)
@@ -97,28 +106,28 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
         {
             m_sprBatch = sprBatch;
 
-            scoreFont = Content.Load<SpriteFont>("Falldown/ScoreFont");
-            player.Texture = Content.Load<Texture2D>("Falldown/player2");
-            GameObjects[0].Texture = Content.Load<Texture2D>("Falldown/freeze2");
-            GameObjects[1].Texture = Content.Load<Texture2D>("Falldown/speed");
-            GameObjects[2].Texture = Content.Load<Texture2D>("Falldown/drill2");
-            GameObjects[3].Texture = Content.Load<Texture2D>("Falldown/score2");
-            Texture2D blockTexture = Content.Load<Texture2D>("Falldown/block2");
-            Menu = Content.Load<Texture2D>("Falldown/menu");
-            BackButton.Texture = Content.Load<Texture2D>("Falldown/arrow");
-            cursor = Content.Load<Texture2D>("Falldown/cursor");
-            Texture2D backGroundTexture = Content.Load<Texture2D>("Falldown/background3");
+            scoreFont = Content.Load<SpriteFont>("Falldown/Textures/ScoreFont");
+            player.Texture = Content.Load<Texture2D>("Falldown/Textures/playerSheet");
+            GameObjects[0].Texture = Content.Load<Texture2D>("Falldown/Textures/freeze2");
+            GameObjects[1].Texture = Content.Load<Texture2D>("Falldown/Textures/speed");
+            GameObjects[2].Texture = Content.Load<Texture2D>("Falldown/Textures/drill2");
+            GameObjects[3].Texture = Content.Load<Texture2D>("Falldown/Textures/score2");
+            Block.texture = Content.Load<Texture2D>("Falldown/Textures/block2");
+            Menu = Content.Load<Texture2D>("Falldown/Textures/menu");
+            BackButton.Texture = Content.Load<Texture2D>("Falldown/Textures/arrow");
+            cursor = Content.Load<Texture2D>("Falldown/Textures/cursor");
+            Texture2D backGroundTexture = Content.Load<Texture2D>("Falldown/Textures/background3");
             Background[0].Texture = backGroundTexture;
             Background[1].Texture = backGroundTexture;
 
-            foreach (Row row in rows)
-            {
-                foreach (Block block in row.blocks)
-                {
-                    block.texture = blockTexture;
-                }
-            }
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = MediaPlayer.Volume / 20;
+            MediaPlayer.Play(Content.Load<Song>("Falldown/Sounds/soundtrack"));
 
+            SoundEffects.Add(Content.Load<SoundEffect>("Falldown/Sounds/freeze"));
+            SoundEffects.Add(Content.Load<SoundEffect>("Falldown/Sounds/speed"));
+            SoundEffects.Add(Content.Load<SoundEffect>("Falldown/Sounds/drill"));
+            SoundEffects.Add(Content.Load<SoundEffect>("Falldown/Sounds/score"));
             base.LoadContent(Content, sprBatch);
         }
 
@@ -174,9 +183,14 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
                 }
                 //player can't move while drill is active
                 if (!GameObjects[2].Active)
-                    player.Update();
+                    player.Update(gameTime);
 
                 ScrollSpeed += ScrollIncreaseRate;
+                PowerSpawnRate += PowerIncreaseRate;
+
+                rad = (int)(Math.Round(PowerSpawnRate));
+                if (rad < 3)
+                    rad = 3;
 
                 score = gameTime.TotalRealTime.Seconds;
                 score += gameTime.TotalRealTime.Minutes * 60;
@@ -184,13 +198,10 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
                 score *= 10;
                 score += bonus;
 
-                if (gameTime.TotalRealTime.Seconds % 10 == 0 && gameTime.TotalRealTime.Seconds != 0 && !powerAdded)
+                if (gameTime.TotalGameTime.Seconds % rad == 0 && gameTime.TotalGameTime.Milliseconds == 0)
                 {
                     addPowerup();
-                    powerAdded = true;
                 }
-                if (gameTime.TotalRealTime.Seconds % 11 == 0 && gameTime.TotalRealTime.Seconds != 0 && powerAdded)
-                    powerAdded = false;
 
             }
             else if (PlayState == "Menu")
@@ -200,6 +211,7 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
 
                 if (BackButton.BoundingRectangle.Intersects(new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 1, 1)) && Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
+                    MediaPlayer.Stop();
                     ScreenState = ScreenState.Hidden;
                 }
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed && !firstRun)
@@ -219,9 +231,15 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
         private void addPowerup()
         {
             Random rand = new Random();
-            int powerUpIndex = rand.Next(0, 5);
+            int powerUpIndex = rand.Next(0, 4);
+            bool noPowerVisible = true;
 
-            if (!GameObjects[powerUpIndex].Visible)
+            for (int i = 0; i < 4; i++)
+            {
+                if (GameObjects[i].Visible)
+                    noPowerVisible = false;
+            }
+            if (noPowerVisible)
             {
                 GameObjects[powerUpIndex].Visible = true;
                 GameObjects[powerUpIndex].Position = new Vector2(rand.Next(0, 272 - GameObjects[powerUpIndex].Texture.Width), 480 - GameObjects[powerUpIndex].Texture.Width);
@@ -302,6 +320,7 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
                     else
                         bonus += 150;
 
+                    SoundEffects[i].Play();
                     GameObjects[i].Visible = false;
                     GameObjects[i].StartTime = gameTime.TotalRealTime.Seconds + gameTime.TotalRealTime.Minutes * 60;
                 }
@@ -321,6 +340,8 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
 
             Background[0].Draw(m_sprBatch);
             Background[1].Draw(m_sprBatch);
+            //m_sprBatch.Draw(Background[0].Texture, new Rectangle((int)Background[0].Position.X, (int)Background[0].Position.Y, 272, 600), Color.White);
+
             //replace player sprite if drill is active
             if (GameObjects[2].Active)
                 player.Draw(m_sprBatch, GameObjects[2].Texture);
@@ -338,6 +359,10 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
                     powerup.Draw(m_sprBatch);
             }
 
+            // m_sprBatch.DrawString(scoreFont, rad.ToString(), new Vector2(25, 25), Color.DarkRed);
+            //m_sprBatch.DrawString(scoreFont, PowerSpawnRate.ToString(), new Vector2(50, 50), Color.DarkRed);
+            //m_sprBatch.DrawString(scoreFont, Background[0].Position.ToString(), new Vector2(25, 25), Color.DarkRed);
+            //m_sprBatch.DrawString(scoreFont, Background[1].Position.ToString(), new Vector2(50, 50), Color.DarkRed);
             m_sprBatch.DrawString(scoreFont, "Score: " + score.ToString(), new Vector2(160, 450), Color.DarkRed);
 
             if (PlayState == "Menu")
