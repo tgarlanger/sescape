@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Input;
 
 namespace SantellosEscape.Screens.GameScreens.Avoider
 {
@@ -29,6 +30,10 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 
         private Random m_rndRand;
 
+        private Texture2D m_texOverLay;
+
+        private bool m_bGameActive;
+
         // ***** CHANGE THE 3 TO THE NUMBER OF TEXTURES IN THE PROJECTILES FOLDER
         private const int NUM_PROJECTILE_TEXTURES = 3;
 
@@ -45,6 +50,8 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             m_rndRand = new Random(5280);
 
             ScreenOrientation = ScreenOrientation.Portrait;
+
+            m_bGameActive = false;
         }
 
         /// <summary>
@@ -56,7 +63,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
         {
             m_sprBatch = sprBatch;
 
-            Texture2D texTemp = Content.Load<Texture2D>("Avoider/Smiley");
+            Texture2D texTemp = Content.Load<Texture2D>("Avoider/Graphics/spritesheet");
 
             m_texEnemy = Content.Load<Texture2D>("Avoider/Devil");
 
@@ -67,6 +74,8 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             m_player1 = new Player(new Vector2((272/2),480-30-texTemp.Height), texTemp);
 
             m_lstProjectileTextures = new List<Texture2D>();
+
+            m_texOverLay = Content.Load<Texture2D>("Avoider/Graphics/menu");
 
             for (int index = 0; index < NUM_PROJECTILE_TEXTURES; index++)
             {
@@ -85,7 +94,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
         /// <param name="gameTime">The game time.</param>
         public override void Update(GameTime gameTime)
         {
-            if (m_player1.Alive)
+            if (m_player1.Alive && m_bGameActive)
             {
                 m_player1.Update(gameTime);
 
@@ -107,6 +116,20 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
                     enemy.CheckCollisions(ref m_player1);
                 }
             }
+            else if (!m_bGameActive)
+            {
+                MouseState mState = Mouse.GetState();
+
+                if (mState.LeftButton == ButtonState.Pressed && mState.Y > 400)
+                {
+                    m_bGameActive = true;
+                }
+            }
+
+            if (!m_player1.Alive)
+            {
+                m_bGameActive = false;
+            }
 
             base.Update(gameTime);
         }
@@ -117,7 +140,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
         /// <param name="gameTime">The game time.</param>
         public override void Draw(GameTime gameTime)
         {
-            if (m_player1.Alive)
+            if (m_player1.Alive /*&& m_bGameActive*/)
             {
                 m_sprBatch.Begin();
 
@@ -136,11 +159,11 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 
                 base.Draw(gameTime);
             }
-            else
+            if (!m_bGameActive)
             {
                 m_sprBatch.Begin();
 
-                m_sprBatch.DrawString(m_sprFont, "YOU DIED!", new Vector2(0, 240), Color.Black);
+                m_sprBatch.Draw(m_texOverLay, Vector2.Zero, Color.White);
 
                 m_sprBatch.End();
             }
