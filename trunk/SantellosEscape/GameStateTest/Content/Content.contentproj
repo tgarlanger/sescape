@@ -176,79 +176,79 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Falldown\Textures1\arrow.png">
+    <Compile Include="Falldown\Textures\arrow.png">
       <Name>arrow</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Falldown\Textures1\background3.png">
+    <Compile Include="Falldown\Textures\background3.png">
       <Name>background3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Falldown\Textures1\block2.png">
+    <Compile Include="Falldown\Textures\block2.png">
       <Name>block2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Falldown\Textures1\cursor.png">
+    <Compile Include="Falldown\Textures\cursor.png">
       <Name>cursor</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Falldown\Textures1\drill2.png">
+    <Compile Include="Falldown\Textures\drill2.png">
       <Name>drill2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Falldown\Textures1\freeze2.png">
+    <Compile Include="Falldown\Textures\freeze2.png">
       <Name>freeze2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Falldown\Textures1\menu.png">
+    <Compile Include="Falldown\Textures\menu.png">
       <Name>menu</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Falldown\Textures1\player2.png">
+    <Compile Include="Falldown\Textures\player2.png">
       <Name>player2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Falldown\Textures1\player3.png">
+    <Compile Include="Falldown\Textures\player3.png">
       <Name>player3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Falldown\Textures1\playerSheet.png">
+    <Compile Include="Falldown\Textures\playerSheet.png">
       <Name>playerSheet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Falldown\Textures1\score.png">
+    <Compile Include="Falldown\Textures\score.png">
       <Name>score</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Falldown\Textures1\score2.png">
+    <Compile Include="Falldown\Textures\score2.png">
       <Name>score2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Falldown\Textures1\speed.png">
+    <Compile Include="Falldown\Textures\speed.png">
       <Name>speed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Falldown\Textures1\speed2.png">
+    <Compile Include="Falldown\Textures\speed2.png">
       <Name>speed2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Falldown\Textures1\ScoreFont.spritefont">
+    <Compile Include="Falldown\Textures\ScoreFont.spritefont">
       <Name>ScoreFont</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
