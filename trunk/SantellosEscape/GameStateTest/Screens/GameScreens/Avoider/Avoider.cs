@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace SantellosEscape.Screens.GameScreens.Avoider
 {
@@ -33,6 +34,8 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
         private Texture2D m_texOverLay;
 
         private bool m_bGameActive;
+
+        private SoundEffect m_sndThrow;
 
         // ***** CHANGE THE 3 TO THE NUMBER OF TEXTURES IN THE PROJECTILES FOLDER
         private const int NUM_PROJECTILE_TEXTURES = 3;
@@ -77,6 +80,10 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 
             m_texOverLay = Content.Load<Texture2D>("Avoider/Graphics/menu");
 
+            m_player1.ScreamSound = Content.Load<SoundEffect>("Avoider/Sounds/Scream");
+
+            m_sndThrow = Content.Load<SoundEffect>("Avoider/Sounds/Throw");
+
             for (int index = 0; index < NUM_PROJECTILE_TEXTURES; index++)
             {
                 m_lstProjectileTextures.Add(Content.Load<Texture2D>("Avoider/Projectiles/" + index.ToString())); 
@@ -84,6 +91,8 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             }
 
             m_lstEnemies.Add(new Enemy(m_texEnemy,new Vector2(m_rndRand.Next(10,272-m_texEnemy.Width-10),10),new Vector2(1,0),1000,m_lstProjectileTextures));
+
+            m_lstEnemies[m_lstEnemies.Count - 1].ThrowSound = m_sndThrow;
 
             base.LoadContent(Content, sprBatch);
         }
@@ -106,6 +115,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
                     {
                         m_lstEnemies.Add(new Enemy(m_texEnemy, new Vector2(m_rndRand.Next(10, 272 - m_texEnemy.Width - 10), 10), new Vector2(1, 0), 1000, m_lstProjectileTextures));
 
+                        m_lstEnemies[m_lstEnemies.Count - 1].ThrowSound = m_sndThrow;
                         m_iNextAddEnemy *= 2;
                     }
                 }

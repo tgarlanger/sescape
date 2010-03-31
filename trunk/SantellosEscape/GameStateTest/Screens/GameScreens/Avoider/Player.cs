@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace SantellosEscape.Screens.GameScreens.Avoider
 {
@@ -47,6 +48,20 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
         private int m_iFrameRate;
 
         private int m_iTicks;
+
+        public SoundEffect ScreamSound
+        {
+            get
+            {
+                return m_sndScream;
+            }
+            set
+            {
+                m_sndScream = value;
+            }
+        }
+
+        private SoundEffect m_sndScream;
 
         public Player()
         {
@@ -125,6 +140,8 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 
         public void Kill()
         {
+            m_sndScream.Play();
+            
             m_bAlive = false;
         }
     }

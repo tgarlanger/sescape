@@ -5,6 +5,7 @@ using System.Text;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace SantellosEscape.Screens.GameScreens.Avoider
 {
@@ -17,6 +18,20 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
         private List<Texture2D> m_lstProjectileTextures;
 
         private Random m_rndRand;
+
+        private SoundEffect m_sndThrow;
+
+        public SoundEffect ThrowSound
+        {
+            get
+            {
+                return m_sndThrow;
+            }
+            set
+            {
+                m_sndThrow = value;
+            }
+        }
 
         public Enemy()
         {
@@ -80,6 +95,8 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
                     m_lstProjectileTextures[m_rndRand.Next(0,m_lstProjectileTextures.Count)],
                     m_vecPosition+new Vector2(0,m_texImage.Height+5),
                     new Vector2(0,m_rndRand.Next(5,15))));
+
+                m_sndThrow.Play();
             }
         }
 
