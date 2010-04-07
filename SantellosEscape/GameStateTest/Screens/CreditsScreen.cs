@@ -37,7 +37,7 @@ namespace SantellosEscape.Screens
             ListNames.Add("Anthony Garlanger");
             ListNames.Add("Pat Ostler");
             ListNames.Add("Jacob Pelka");
-            ListNames.Add("David R...");
+            ListNames.Add("David Roszkowski");
         }
 
         public override void LoadContent(Microsoft.Xna.Framework.Content.ContentManager Content, Microsoft.Xna.Framework.Graphics.SpriteBatch sprBatch)
