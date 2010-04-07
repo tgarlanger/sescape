@@ -21,6 +21,8 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 
         private Texture2D m_texBackground;
 
+        private Texture2D m_texCursor;
+
         private List<Texture2D> m_lstProjectileTextures;
 
         private int m_iScore;
@@ -38,7 +40,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
         private SoundEffect m_sndThrow;
 
         // ***** CHANGE THE 3 TO THE NUMBER OF TEXTURES IN THE PROJECTILES FOLDER
-        private const int NUM_PROJECTILE_TEXTURES = 3;
+        private const int NUM_PROJECTILE_TEXTURES = 4;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Avoider"/> class.
@@ -50,7 +52,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             m_iScore = 0;
             m_iNextAddEnemy = 1500;
 
-            m_rndRand = new Random(5280);
+            m_rndRand = new Random(528);
 
             ScreenOrientation = ScreenOrientation.Portrait;
 
@@ -84,15 +86,15 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 
             m_sndThrow = Content.Load<SoundEffect>("Avoider/Sounds/Throw");
 
+            m_texCursor = Content.Load<Texture2D>("Falldown/Textures/cursor");
+
             for (int index = 0; index < NUM_PROJECTILE_TEXTURES; index++)
             {
                 m_lstProjectileTextures.Add(Content.Load<Texture2D>("Avoider/Projectiles/" + index.ToString())); 
                 // lstProjectileTextures[index] = Content.Load<Texture2D>("Avoider/Projectiles/" + index.ToString());
             }
 
-            m_lstEnemies.Add(new Enemy(m_texEnemy,new Vector2(m_rndRand.Next(10,272-m_texEnemy.Width-10),10),new Vector2(1,0),1000,m_lstProjectileTextures));
-
-            m_lstEnemies[m_lstEnemies.Count - 1].ThrowSound = m_sndThrow;
+            AddEnemy();
 
             base.LoadContent(Content, sprBatch);
         }
@@ -113,9 +115,11 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 
                     if (m_iScore >= m_iNextAddEnemy)
                     {
-                        m_lstEnemies.Add(new Enemy(m_texEnemy, new Vector2(m_rndRand.Next(10, 272 - m_texEnemy.Width - 10), 10), new Vector2(1, 0), 1000, m_lstProjectileTextures));
+                        int iSeed = m_rndRand.Next(500) * m_rndRand.Next(300);
+                        m_rndRand = new Random(iSeed);
 
-                        m_lstEnemies[m_lstEnemies.Count - 1].ThrowSound = m_sndThrow;
+                        AddEnemy();
+
                         m_iNextAddEnemy *= 2;
                     }
                 }
@@ -133,6 +137,8 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
                 if (mState.LeftButton == ButtonState.Pressed && mState.Y > 400)
                 {
                     m_bGameActive = true;
+
+                    Reset();
                 }
             }
 
@@ -171,12 +177,44 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             }
             if (!m_bGameActive)
             {
+                Vector2 mousepos = new Vector2(Mouse.GetState().X,Mouse.GetState().Y);
+
                 m_sprBatch.Begin();
+
+                m_sprBatch.Draw(m_texBackground, Vector2.Zero, Color.White);
 
                 m_sprBatch.Draw(m_texOverLay, Vector2.Zero, Color.White);
 
+                m_sprBatch.Draw(m_texCursor, mousepos, Color.White);
                 m_sprBatch.End();
             }
+        }
+
+        private void Reset()
+        {
+            m_player1.Alive = true;
+            m_lstEnemies.Clear();
+            m_iScore = 0;
+
+            AddEnemy();
+        }
+
+        private void AddEnemy()
+        {
+            int ifireRate = m_rndRand.Next(50, 150) * m_rndRand.Next(4, 10) - m_rndRand.Next(200, 500);
+
+            if (ifireRate < 500)
+            {
+                ifireRate += 500;
+            }
+
+            m_lstEnemies.Add(new Enemy(m_texEnemy,
+                            new Vector2(m_rndRand.Next(10, 272 - m_texEnemy.Width - 10), 10),
+                            new Vector2(1, 0),
+                            ifireRate,
+                            m_lstProjectileTextures));
+
+            m_lstEnemies[m_lstEnemies.Count - 1].ThrowSound = m_sndThrow;
         }
     }
 }
