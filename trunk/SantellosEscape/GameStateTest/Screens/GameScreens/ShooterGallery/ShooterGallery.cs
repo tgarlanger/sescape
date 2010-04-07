@@ -79,6 +79,8 @@ namespace SantellosEscape.Screens.GameScreens.ShooterGallery
             comp1[3] = Content.Load<Texture2D>("ShooterGallery/Items/computer");
 
             m_texBackground = Content.Load<Texture2D>("ShooterGallery/background");
+
+            base.LoadContent(Content, m_sprBatch);
         }
 
         /// <summary>
