@@ -89,6 +89,7 @@
     <Compile Include="SantellosEscape.cs" />
     <Compile Include="Screens\CreditsScreen.cs" />
     <Compile Include="Screens\GameScreen.cs" />
+    <Compile Include="Screens\GameScreens\Avoider\AnimationControl.cs" />
     <Compile Include="Screens\GameScreens\Avoider\Avoider.cs" />
     <Compile Include="Screens\GameScreens\Avoider\Enemy.cs" />
     <Compile Include="Screens\GameScreens\Avoider\GameObject.cs" />

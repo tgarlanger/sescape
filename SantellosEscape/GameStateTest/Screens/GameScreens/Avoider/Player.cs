@@ -25,6 +25,10 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             {
                 return m_bAlive;
             }
+            set
+            {
+                m_bAlive = true;
+            }
         }
 
         private PlayerDirection m_plyrDirection;
