@@ -175,16 +175,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Falldown\Textures\player2.png">
-      <Name>player2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Falldown\Textures\player3.png">
-      <Name>player3</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Falldown\Textures\playerSheet.png">
       <Name>playerSheet</Name>
       <Importer>TextureImporter</Importer>
@@ -305,6 +295,40 @@
       <Name>Gun1</Name>
       <Importer>Mp3Importer</Importer>
       <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GameState\Graphics\Menu\credits.png">
+      <Name>credits</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="GameState\Graphics\Menu\dualAssault.png">
+      <Name>dualAssault</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="GameState\Graphics\Menu\dualExodus.png">
+      <Name>dualExodus</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="GameState\Graphics\Menu\exit.png">
+      <Name>exit</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="GameState\Graphics\Menu\payback.png">
+      <Name>payback</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GameState\Graphics\Credits\creditScreen.png">
+      <Name>creditScreen</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
