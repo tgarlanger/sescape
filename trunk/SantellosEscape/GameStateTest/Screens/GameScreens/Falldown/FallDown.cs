@@ -127,6 +127,7 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
             SoundEffects.Add(Content.Load<SoundEffect>("Falldown/Sounds/speed"));
             SoundEffects.Add(Content.Load<SoundEffect>("Falldown/Sounds/drill"));
             SoundEffects.Add(Content.Load<SoundEffect>("Falldown/Sounds/score"));
+            SoundEffects.Add(Content.Load<SoundEffect>("Avoider/Sounds/Scream"));
             firstRun = true;
             PlayState = "Menu";
             base.LoadContent(Content, sprBatch);
@@ -309,7 +310,10 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
                     gObject.Position = new Vector2(gObject.Position.X, 480 - gObject.Texture.Height);
                 //Ends Current Game if player hits top
                 if (gObject.Position.Y < 0 && gObject.Value == "Player")
+                {
+                    SoundEffects[4].Play();
                     PlayState = "Menu";
+                }
                 if (gObject.Position.Y < 0 - gObject.Texture.Height)
                     gObject.Visible = false;
             }
