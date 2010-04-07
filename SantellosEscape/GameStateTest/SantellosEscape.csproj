@@ -101,6 +101,7 @@
     <Compile Include="Screens\GameScreens\Falldown\Player.cs" />
     <Compile Include="Screens\GameScreens\Falldown\Row.cs" />
     <Compile Include="Screens\GameScreens\ShooterGallery\Computer.cs" />
+    <Compile Include="Screens\GameScreens\ShooterGallery\freeze.cs" />
     <Compile Include="Screens\GameScreens\ShooterGallery\Rectangle addition.cs" />
     <Compile Include="Screens\GameScreens\ShooterGallery\ShooterGallery.cs" />
     <Compile Include="Screens\Screen.cs" />
