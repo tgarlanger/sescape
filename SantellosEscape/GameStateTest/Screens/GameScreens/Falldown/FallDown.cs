@@ -17,7 +17,8 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
         private Player player;
         private List<Row> rows;
         private List<GameObject> GameObjects;
-        private GameObject BackButton;
+        private Texture2D BackArrow;
+        private int arrowFrame;
 
         private int score;
         private int gameBegin;
@@ -57,9 +58,6 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
             Background[1] = new GameObject();
             Background[1].Position = new Vector2(0, 485);
 
-            BackButton = new GameObject();
-            BackButton.Position = new Vector2(0, 480 - 50);
-
             GameObjects = new List<GameObject>();
             loadPowerups();
             GameObjects.Add(player);
@@ -67,6 +65,7 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
             gameBegin = 0;
             HighScore = 0;
             bonus = 0;
+            arrowFrame = 0;
 
             firstRun = true;
             PlayState = "Menu";
@@ -114,7 +113,7 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
             GameObjects[3].Texture = Content.Load<Texture2D>("Falldown/Textures/score2");
             Block.texture = Content.Load<Texture2D>("Falldown/Textures/block2");
             Menu = Content.Load<Texture2D>("Falldown/Textures/menu");
-            BackButton.Texture = Content.Load<Texture2D>("Falldown/Textures/arrow");
+            BackArrow = Content.Load<Texture2D>("Falldown/Textures/arrow");
             cursor = Content.Load<Texture2D>("Falldown/Textures/cursor");
             Texture2D backGroundTexture = Content.Load<Texture2D>("Falldown/Textures/background3");
             Background[0].Texture = backGroundTexture;
@@ -128,6 +127,8 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
             SoundEffects.Add(Content.Load<SoundEffect>("Falldown/Sounds/speed"));
             SoundEffects.Add(Content.Load<SoundEffect>("Falldown/Sounds/drill"));
             SoundEffects.Add(Content.Load<SoundEffect>("Falldown/Sounds/score"));
+            firstRun = true;
+            PlayState = "Menu";
             base.LoadContent(Content, sprBatch);
         }
 
@@ -208,12 +209,19 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
             {
                 if (score > HighScore)
                     HighScore = score;
-
-                if (BackButton.BoundingRectangle.Intersects(new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 1, 1)) && Mouse.GetState().LeftButton == ButtonState.Pressed)
+                Rectangle mouseRec = new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 1, 1);
+                if (mouseRec.Intersects(new Rectangle(0, 480-50, 50, 50)))
                 {
-                    MediaPlayer.Stop();
-                    ScreenState = ScreenState.Hidden;
+                    arrowFrame = 1;
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    {
+                        MediaPlayer.Stop();
+                        ScreenState = ScreenState.Hidden;
+                    }
                 }
+                else
+                    arrowFrame = 0;
+
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed && !firstRun)
                 {
                     gameBegin = gameTime.TotalRealTime.Seconds + (gameTime.TotalRealTime.Minutes * 60);
@@ -359,10 +367,6 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
                     powerup.Draw(m_sprBatch);
             }
 
-            // m_sprBatch.DrawString(scoreFont, rad.ToString(), new Vector2(25, 25), Color.DarkRed);
-            //m_sprBatch.DrawString(scoreFont, PowerSpawnRate.ToString(), new Vector2(50, 50), Color.DarkRed);
-            //m_sprBatch.DrawString(scoreFont, Background[0].Position.ToString(), new Vector2(25, 25), Color.DarkRed);
-            //m_sprBatch.DrawString(scoreFont, Background[1].Position.ToString(), new Vector2(50, 50), Color.DarkRed);
             m_sprBatch.DrawString(scoreFont, "Score: " + score.ToString(), new Vector2(160, 450), Color.DarkRed);
 
             if (PlayState == "Menu")
@@ -379,7 +383,7 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
         {
             m_sprBatch.DrawString(scoreFont, "High Score: " + HighScore.ToString(), new Vector2(70, 375), Color.DarkRed);
             m_sprBatch.Draw(Menu, Vector2.Zero, Color.White);
-            m_sprBatch.Draw(BackButton.Texture, BackButton.Position, Color.White);
+            m_sprBatch.Draw(BackArrow, new Rectangle(0, 480-50, 50, 50), new Rectangle(50 * arrowFrame, 0, 50, 50), Color.White);
         }
     }
 }
