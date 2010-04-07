@@ -195,6 +195,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             m_player1.Alive = true;
             m_lstEnemies.Clear();
             m_iScore = 0;
+            m_iNextAddEnemy = 1500;
 
             AddEnemy();
         }
@@ -209,7 +210,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             }
 
             m_lstEnemies.Add(new Enemy(m_texEnemy,
-                            new Vector2(m_rndRand.Next(10, 272 - m_texEnemy.Width - 10), 10),
+                            new Vector2(m_rndRand.Next(25, 272 - m_texEnemy.Width - 25), 10),
                             new Vector2(1, 0),
                             ifireRate,
                             m_lstProjectileTextures));
