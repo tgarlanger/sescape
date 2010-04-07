@@ -114,7 +114,7 @@ namespace SantellosEscape.Screens.GameScreens.ShooterGallery
             comp1[1] = Content.Load<Texture2D>("ShooterGallery/Items/computer1");
             comp1[2] = Content.Load<Texture2D>("ShooterGallery/Items/computer");
             comp1[3] = Content.Load<Texture2D>("ShooterGallery/Items/computer");
-            // monitor = Content.Load<Texture2D>("ShooterGallery/Items/Monitor");
+            monitor = Content.Load<Texture2D>("ShooterGallery/Items/Monitor");
             Windows = Content.Load<Texture2D>("ShooterGallery/Items/Windows");
             Gun = Content.Load<Texture2D>("ShooterGallery/Items/gun");
             soundEffect = Content.Load<SoundEffect>("ShooterGallery/Items/Gun1");
@@ -214,10 +214,12 @@ namespace SantellosEscape.Screens.GameScreens.ShooterGallery
             m_sprBatch.Draw(comp1[1], compPos[1].Position, Color.White);
             m_sprBatch.Draw(comp1[2], compPos[2].Position, Color.White);
             m_sprBatch.Draw(comp1[3], compPos[3].Position, Color.White);
+
+            m_sprBatch.Draw(monitor, new Vector2(0, 0), Color.White);
+
             m_sprBatch.Draw(Gun, new Vector2(200, 170), new Rectangle(75 * iFrame, 0, Gun.Width / 2, Gun.Height),
                 Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 1.0f);
 
-            //m_sprBatch.Draw(monitor, new Vector2(0, 0), Color.White);
             m_sprBatch.DrawString(FinalScore, Score.ToString(), new Vector2(445, 253), Color.Gold);
 
             if (UPDATE)
