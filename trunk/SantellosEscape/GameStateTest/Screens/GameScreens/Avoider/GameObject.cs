@@ -38,7 +38,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             {
                 return new Rectangle(Convert.ToInt16(m_vecPosition.X), 
                     Convert.ToInt16(m_vecPosition.Y), 
-                    m_texImage.Width, 
+                    m_texImage.Width/2, 
                     m_texImage.Height);
             }
         }
