@@ -176,12 +176,20 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
                 if (GameObjects[1].Active)
                 {
                     Gravity = 10;
+#if ZUNE
+                    player.movementMulitplier = 20;
+#else
                     player.movementSpeed = 6;
+#endif
                 }
                 else
                 {
                     Gravity = 5;
+#if ZUNE
+                    player.movementMulitplier = 10;
+#else
                     player.movementSpeed = 3;
+#endif
                 }
                 //player can't move while drill is active
                 if (!GameObjects[2].Active)
@@ -210,6 +218,37 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
             {
                 if (score > HighScore)
                     HighScore = score;
+#if ZUNE
+                TouchCollection collection = TouchPanel.GetState();
+                if (collection.Count == 1)
+                {
+                    if (new Rectangle((int)collection[0].Position.X, (int)collection[0].Position.Y, 1, 1).Intersects(new Rectangle(0, 480 - 50, 50, 50)))
+                    {
+                        arrowFrame = 0;
+                        if (collection[0].State == TouchLocationState.Moved || collection[0].State == TouchLocationState.Pressed)
+                            arrowFrame = 1;
+                        else if (collection[0].State == TouchLocationState.Released)
+                        {
+                            MediaPlayer.Stop();
+                            ScreenState = ScreenState.Hidden;
+                        }
+                    }
+                    else
+                        arrowFrame = 0;
+
+                    if (collection[0].State == TouchLocationState.Released)// && !firstRun)
+                    {
+                        gameBegin = gameTime.TotalRealTime.Seconds + (gameTime.TotalRealTime.Minutes * 60);
+                        resetGame();
+                    }
+                }
+            }
+            if (TouchPanel.GetState().Count == 1)
+            {
+                if (TouchPanel.GetState()[0].State == TouchLocationState.Pressed)
+                    firstRun = false;
+            }
+#else
                 Rectangle mouseRec = new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 1, 1);
                 if (mouseRec.Intersects(new Rectangle(0, 480-50, 50, 50)))
                 {
@@ -232,6 +271,7 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
             //Ensure game doesn't start until player sees the menu
             if (Mouse.GetState().LeftButton == ButtonState.Released)
                 firstRun = false;
+#endif
 
             base.Update(gameTime);
         }

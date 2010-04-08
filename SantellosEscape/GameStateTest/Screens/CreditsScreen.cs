@@ -74,6 +74,24 @@ namespace SantellosEscape.Screens
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
+#if ZUNE
+            TouchCollection collection = TouchPanel.GetState();
+            if (collection.Count == 1)
+            {
+                if (new Rectangle((int)collection[0].Position.X, (int)collection[0].Position.Y, 1, 1).Intersects(new Rectangle(0, 480 - 50, 50, 50)))
+                {
+                    arrowFrame = 0;
+                    if (collection[0].State == TouchLocationState.Moved || collection[0].State == TouchLocationState.Pressed)
+                        arrowFrame = 1;
+                    else if (collection[0].State == TouchLocationState.Released)
+                    {
+                        ScreenState = ScreenState.Hidden;
+                    }
+                }
+                else
+                    arrowFrame = 0;
+            }
+#else
             Rectangle mouseRec = new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 1, 1);
             if (mouseRec.Intersects(new Rectangle((int)ArrowPosition.X, (int)ArrowPosition.Y, 50, 50)))
             {   
@@ -83,6 +101,7 @@ namespace SantellosEscape.Screens
             }
             else
                 arrowFrame = 0;
+#endif
             base.Update(gameTime);
         }
 
