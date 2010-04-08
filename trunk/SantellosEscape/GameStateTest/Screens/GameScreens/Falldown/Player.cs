@@ -15,7 +15,10 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
 {
     class Player : GameObject
     {
-        public int movementSpeed = 3;
+#if ZUNE
+        public int movementMulitplier = 10;
+#endif
+        public float movementSpeed = 3;
         private bool isFacingRight;
         private Rectangle[] frames = { new Rectangle(0, 0, 20, 40), new Rectangle(20, 0, 20, 40) };
         private int frame;
@@ -23,8 +26,32 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
         public void Update(GameTime gameTime)
         {
             Vector2 newPosition;
-            KeyboardState keyboardState = Keyboard.GetState();
-            if (keyboardState.IsKeyDown(Keys.Right))
+
+#if ZUNE
+            if (Math.Abs(Accelerometer.GetState().Acceleration.X) > 0.05)
+            {
+                movementSpeed = Accelerometer.GetState().Acceleration.X * movementMulitplier;
+                isFacingRight = (movementSpeed > 0);
+                newPosition = new Vector2(Position.X + movementSpeed, Position.Y);
+                if (newPosition.X < 272 - this.Texture.Width / 2 && newPosition.X > 0)
+                    Position = newPosition;
+                if (gameTime.TotalRealTime.Milliseconds % 7 == 0)
+                    frame = (frame == 0) ? 1 : 0;
+            }
+
+
+
+#else
+            if(Keyboard.GetState().IsKeyDown(Keys.Right))
+                direction = 1;
+            else if(Keyboard.GetState().IsKeyDown(Keys.Left))
+                direction = -1;
+            else 
+                direction = 0;
+
+
+
+            if (direction == 1)
             {
                 newPosition = new Vector2(Position.X + movementSpeed, Position.Y);
                 if (newPosition.X < 272 - this.Texture.Width / 2)
@@ -33,7 +60,7 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
                 if (gameTime.TotalRealTime.Milliseconds % 7 == 0)
                     frame = (frame == 0) ? 1 : 0;
             }
-            if (keyboardState.IsKeyDown(Keys.Left))
+            if (direction == -1)
             {
                 newPosition = new Vector2(Position.X - movementSpeed, Position.Y);
                 if (newPosition.X > 0)
@@ -42,7 +69,7 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
                 if (gameTime.TotalRealTime.Milliseconds % 7 == 0)
                     frame = (frame == 0) ? 1 : 0;
             }
-
+#endif
         }
 
         public void Draw(SpriteBatch spriteBatch, Texture2D t)
