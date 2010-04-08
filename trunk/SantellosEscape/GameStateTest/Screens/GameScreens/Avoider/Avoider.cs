@@ -58,7 +58,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             m_iScore = 0;
             m_iNextAddEnemy = 1500;
 
-            m_rndRand = new Random(528);
+            m_rndRand = new Random(DateTime.Now.Second*DateTime.Now.Millisecond);
 
             ScreenOrientation = ScreenOrientation.Portrait;
 
