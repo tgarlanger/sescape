@@ -112,8 +112,9 @@ namespace SantellosEscape.Screens
                 m_sprBatch.Draw(MenuItems[i], new Rectangle((int)ListOrigin.X, (int)(ListOrigin.Y + (ListSpacing * i)), (int)frameSize.X, (int)frameSize.Y), new Rectangle(200 * frame[i], 0, 200, 78), Color.White);
             }
 
+#if WINDOWS
             m_sprBatch.Draw(Cursor, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.White);
-
+#endif
             m_sprBatch.End();
 
             base.Draw(gameTime);

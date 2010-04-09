@@ -20,7 +20,6 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
 #endif
         public float movementSpeed = 3;
         private bool isFacingRight;
-        private Rectangle[] frames = { new Rectangle(0, 0, 20, 40), new Rectangle(20, 0, 20, 40) };
         private int frame;
 
         public void Update(GameTime gameTime)
@@ -38,20 +37,8 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
                 if (gameTime.TotalRealTime.Milliseconds % 7 == 0)
                     frame = (frame == 0) ? 1 : 0;
             }
-
-
-
 #else
-            if(Keyboard.GetState().IsKeyDown(Keys.Right))
-                direction = 1;
-            else if(Keyboard.GetState().IsKeyDown(Keys.Left))
-                direction = -1;
-            else 
-                direction = 0;
-
-
-
-            if (direction == 1)
+            if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 newPosition = new Vector2(Position.X + movementSpeed, Position.Y);
                 if (newPosition.X < 272 - this.Texture.Width / 2)
@@ -60,7 +47,7 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
                 if (gameTime.TotalRealTime.Milliseconds % 7 == 0)
                     frame = (frame == 0) ? 1 : 0;
             }
-            if (direction == -1)
+            if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
                 newPosition = new Vector2(Position.X - movementSpeed, Position.Y);
                 if (newPosition.X > 0)
@@ -74,20 +61,21 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
 
         public void Draw(SpriteBatch spriteBatch, Texture2D t)
         {
-            //SpriteEffects flip = (!isFacingRight) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             spriteBatch.Draw(t, new Vector2(Position.X, Position.Y + 20), Color.White);
-            //
         }
         public void Draw(SpriteBatch spriteBatch)
         {
             SpriteEffects flip = (!isFacingRight) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            spriteBatch.Draw(this.Texture,
+            spriteBatch.Draw(
+                this.Texture,
                 new Rectangle((int)Position.X, (int)Position.Y, 20, 40),
-                frames[frame], Color.White, 0, Vector2.Zero, flip, 0);
+                new Rectangle(20 * frame, 0, 20, 40), 
+                Color.White, 0, Vector2.Zero, flip, 0);
 
         }
         public Rectangle getBounds()
         {
+            //collisions for rows are detected using only the bottom 3 pixels of player sprite
             return new Rectangle((int)Position.X, (int)Position.Y + 37, 20, 3);
         }
     }
