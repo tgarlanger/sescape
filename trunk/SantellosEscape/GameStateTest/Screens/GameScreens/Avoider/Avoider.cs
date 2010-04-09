@@ -145,6 +145,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             }
             else if (!m_bGameActive || m_bFirstLaunch)
             {
+#if !ZUNE
                 MouseState mState = Mouse.GetState();
 
                 if (m_bFirstLaunch)
@@ -167,6 +168,70 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
                         Reset();
                     }
                 }
+#else
+                TouchCollection touchCollection = TouchPanel.GetState();
+
+                if (touchCollection.Count > 0)
+                {
+                    m_bFirstLaunch = false;
+
+                    m_bGameActive = true;
+
+                    Reset();
+                }
+                /*
+                TouchCollection touchCollection = TouchPanel.GetState();
+                if (touchCollection.Count > 0)
+                {
+                    if (m_bFirstLaunch)
+                    {
+                        if (touchCollection.Count == 0) //if (mState.LeftButton == ButtonState.Released)
+                        {
+                            m_bFirstLaunch = false;
+                        }
+                    }
+                    else if (touchCollection[0].State == TouchLocationState.Pressed || touchCollection[0].State == TouchLocationState.Moved) //else if (mState.LeftButton == ButtonState.Pressed)
+                    {
+                        if (m_recBackArrow.Contains(touchCollection[0].Position.X, touchCollection[0].Position.Y)) // if (m_recBackArrow.Contains(mState.X, mState.Y))
+                        {
+                            ScreenState = ScreenState.Hidden;
+                        }
+                        else
+                        {
+                            m_bGameActive = true;
+
+                            Reset();
+                        }
+                    }
+                }
+                */
+                /*
+                TouchCollection collection = TouchPanel.GetState();
+
+                if (collection.Count == 1)
+                {
+                    m_bFirstLaunch = false;
+
+                    if (new Rectangle((int)collection[0].Position.X, (int)collection[0].Position.Y, 1, 1).Intersects(m_recBackArrow)))
+                    {
+                        if (collection[0].State == TouchLocationState.Released)
+                        {
+                            ScreenState = ScreenState.Hidden;
+                        }
+                    }
+
+                    if (collection[0].State == TouchLocationState.Released)// && !firstRun)
+                    {
+                        //gameBegin = gameTime.TotalRealTime.Seconds + (gameTime.TotalRealTime.Minutes * 60);
+                        //resetGame();
+
+                        m_bGameActive = true;
+
+                        Reset();
+                    }
+                }
+                */
+#endif
             }
 
             if (!m_player1.Alive)
@@ -218,6 +283,9 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 
                 m_sprBatch.End();
             }
+#if ZUNE
+            m_sprBatch.DrawString(m_sprFont, "COUNT: " + TouchPanel.GetState().Count.ToString(), Vector2.Zero, Color.White);
+#endif
         }
 
         private void Reset()

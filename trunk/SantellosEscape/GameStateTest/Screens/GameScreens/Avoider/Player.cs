@@ -108,9 +108,11 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
         {
             m_iTicks++;
 
+#if !ZUNE
             KeyboardState keyState = Keyboard.GetState();
 
             if (keyState.IsKeyDown(Keys.Left) && m_vecPosition.X > 2)
+
             {
                 m_vecVelocity = new Vector2(-5, 0);
                 m_plyrDirection = PlayerDirection.Left;
@@ -124,8 +126,23 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             {
                 m_vecVelocity = Vector2.Zero;
             }
+#else
+            m_vecVelocity = new Vector2(7*Accelerometer.GetState().Acceleration.X);
 
+            if ( Accelerometer.GetState().Acceleration.X > 0 )
+            {
+                m_plyrDirection = PlayerDirection.Right;
+            }
+            else if ( Accelerometer.GetState().Acceleration.X < 0 )
+            {
+                m_plyrDirection = PlayerDirection.Left;
+            }
+#endif
+#if !ZUNE
             if (keyState.IsKeyDown(Keys.Right) || keyState.IsKeyDown(Keys.Left))
+#else
+            if (Accelerometer.GetState().Acceleration.X != 0)
+#endif
             {
                 if (m_iTicks > m_iFrameRate)
                 {

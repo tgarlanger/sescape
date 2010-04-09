@@ -20,6 +20,7 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
 #endif
         public float movementSpeed = 3;
         private bool isFacingRight;
+
         private int frame;
 
         public void Update(GameTime gameTime)
