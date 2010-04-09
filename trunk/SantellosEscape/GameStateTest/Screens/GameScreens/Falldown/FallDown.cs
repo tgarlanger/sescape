@@ -243,11 +243,11 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
                     }
                 }
             }
-            if (TouchPanel.GetState().Count == 1)
-            {
-                if (TouchPanel.GetState()[0].State == TouchLocationState.Pressed)
-                    firstRun = false;
-            }
+            //if (TouchPanel.GetState().Count == 1)
+            //{
+               // if (TouchPanel.GetState()[0].State == TouchLocationState.Pressed)
+                    //firstRun = false;
+            //}
 #else
                 Rectangle mouseRec = new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 1, 1);
                 if (mouseRec.Intersects(new Rectangle(0, 480-50, 50, 50)))
@@ -414,10 +414,9 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
             m_sprBatch.DrawString(scoreFont, "Score: " + score.ToString(), new Vector2(160, 450), Color.DarkRed);
 
             if (PlayState == "Menu")
-            {
                 DrawMenu();
-                m_sprBatch.Draw(cursor, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.White);
-            }
+                
+            
             m_sprBatch.End();
 
             base.Draw(gameTime);
@@ -428,6 +427,9 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
             m_sprBatch.DrawString(scoreFont, "High Score: " + HighScore.ToString(), new Vector2(70, 375), Color.DarkRed);
             m_sprBatch.Draw(Menu, Vector2.Zero, Color.White);
             m_sprBatch.Draw(BackArrow, new Rectangle(0, 480-50, 50, 50), new Rectangle(50 * arrowFrame, 0, 50, 50), Color.White);
+#if WINDOWS
+            m_sprBatch.Draw(cursor, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.White);
+#endif
         }
     }
 }

@@ -65,7 +65,9 @@ namespace SantellosEscape.Screens
             }
             m_sprBatch.DrawString(ListFont, "Additional Textures \nby Professor Santello", new Vector2(ListOrigin.X, ListOrigin.Y + (ListOffset * (ListNames.Count +1))), Color.DarkRed);
             m_sprBatch.Draw(Arrow, new Rectangle((int)ArrowPosition.X, (int)ArrowPosition.Y, 50, 50), new Rectangle((50 * arrowFrame), 0, 50, 50), Color.White);
+#if WINDOWS
             m_sprBatch.Draw(Cursor, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.White);
+#endif
 
             m_sprBatch.End();
 
