@@ -29,12 +29,6 @@ Global
 		{83A58FDB-AAE5-4AD7-B3FE-7BEBD88E2C6B}.Release|x86.ActiveCfg = Release|x86
 		{83A58FDB-AAE5-4AD7-B3FE-7BEBD88E2C6B}.Release|x86.Build.0 = Release|x86
 		{83A58FDB-AAE5-4AD7-B3FE-7BEBD88E2C6B}.Release|Zune.ActiveCfg = Release|x86
-		{99315A93-07C6-48D1-BC69-A1E125968716}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{99315A93-07C6-48D1-BC69-A1E125968716}.Debug|x86.ActiveCfg = Debug|x86
-		{99315A93-07C6-48D1-BC69-A1E125968716}.Debug|Zune.ActiveCfg = Debug|x86
-		{99315A93-07C6-48D1-BC69-A1E125968716}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{99315A93-07C6-48D1-BC69-A1E125968716}.Release|x86.ActiveCfg = Release|x86
-		{99315A93-07C6-48D1-BC69-A1E125968716}.Release|Zune.ActiveCfg = Release|x86
 		{5E3D1AB9-F6BE-4058-A647-CB63D4137D4F}.Debug|Mixed Platforms.ActiveCfg = Debug|Zune
 		{5E3D1AB9-F6BE-4058-A647-CB63D4137D4F}.Debug|Mixed Platforms.Build.0 = Debug|Zune
 		{5E3D1AB9-F6BE-4058-A647-CB63D4137D4F}.Debug|Mixed Platforms.Deploy.0 = Debug|Zune
@@ -49,6 +43,12 @@ Global
 		{5E3D1AB9-F6BE-4058-A647-CB63D4137D4F}.Release|Zune.ActiveCfg = Release|Zune
 		{5E3D1AB9-F6BE-4058-A647-CB63D4137D4F}.Release|Zune.Build.0 = Release|Zune
 		{5E3D1AB9-F6BE-4058-A647-CB63D4137D4F}.Release|Zune.Deploy.0 = Release|Zune
+		{99315A93-07C6-48D1-BC69-A1E125968716}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{99315A93-07C6-48D1-BC69-A1E125968716}.Debug|x86.ActiveCfg = Debug|x86
+		{99315A93-07C6-48D1-BC69-A1E125968716}.Debug|Zune.ActiveCfg = Debug|x86
+		{99315A93-07C6-48D1-BC69-A1E125968716}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{99315A93-07C6-48D1-BC69-A1E125968716}.Release|x86.ActiveCfg = Release|x86
+		{99315A93-07C6-48D1-BC69-A1E125968716}.Release|Zune.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
