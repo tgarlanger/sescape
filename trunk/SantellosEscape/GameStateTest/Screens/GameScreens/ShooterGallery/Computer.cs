@@ -45,6 +45,7 @@ namespace SantellosEscape.Screens.GameScreens.ShooterGallery
         }
         public void Random(GameTime gameTime)
         {
+#if WINDOWS
             if (Position.X < 0)
             {
                 GameTimer = gameTime.TotalGameTime.Seconds + (gameTime.TotalGameTime.Minutes * 60);
@@ -59,9 +60,41 @@ namespace SantellosEscape.Screens.GameScreens.ShooterGallery
                 Velocity.X = -1;
                 isMoving = true;
             }
+            else if (Position.Y <0)
+            {
+                GameTimer = gameTime.TotalGameTime.Seconds + (gameTime.TotalGameTime.Minutes * 60);
+                CDTimer = gameTime.TotalGameTime.Seconds + (gameTime.TotalGameTime.Minutes * 60);
+                Velocity.Y = 1;
+                isMoving = true;
+            }
+#endif
+#if ZUNE
+            if (Position.Y < 0)
+            {
+                GameTimer = gameTime.TotalGameTime.Seconds + (gameTime.TotalGameTime.Minutes * 60);
+                CDTimer = gameTime.TotalGameTime.Seconds + (gameTime.TotalGameTime.Minutes * 60);
+                Velocity.Y = 1;
+                isMoving = true;
+            }
+            else if (Position.Y > 480)
+            {
+                GameTimer = gameTime.TotalGameTime.Seconds + (gameTime.TotalGameTime.Minutes * 60);
+                CDTimer = gameTime.TotalGameTime.Seconds + (gameTime.TotalGameTime.Minutes * 60);
+                Velocity.Y = -1;
+                isMoving = true;
+            }
+            else if (Position.X < 0)
+            {
+                GameTimer = gameTime.TotalGameTime.Seconds + (gameTime.TotalGameTime.Minutes * 60);
+                CDTimer = gameTime.TotalGameTime.Seconds + (gameTime.TotalGameTime.Minutes * 60);
+                Velocity.X = 1;
+                isMoving = true;
+            }
+#endif
         }
         public void Move(GameTime gameTime)
         {
+#if WINDOWS
 
             if (isMoving)
             {
@@ -85,6 +118,12 @@ namespace SantellosEscape.Screens.GameScreens.ShooterGallery
 
                     }
                 }
+                else if (Position.Y < 80 )
+                {
+                    if(Position.Y == 0)
+                    Velocity.Y = 0;
+                    isMoving = false;
+                }
             }
             if (isMoving == false)
             {
@@ -99,10 +138,60 @@ namespace SantellosEscape.Screens.GameScreens.ShooterGallery
                     else if (Position.X < 80)
                         Velocity.X = -1;
 
-
+                    else if (Position.Y < 50)
+                        Velocity.Y = -1;
                 }
             }
 
+#endif
+#if ZUNE
+            if (isMoving)
+            {
+                if (Position.Y < 80)
+                {
+                    if (Position.Y == 0)
+                    {
+                        Velocity.Y = 0;
+                        isMoving = false;
+
+                    }
+                }
+                else if (Position.Y > 400)
+                {
+
+
+                    if (Position.Y == 442)
+                    {
+                        Velocity.Y = 0;
+                        isMoving = false;
+
+                    }
+                }
+                else if (Position.X < 80)
+                {
+                    if (Position.X == 0)
+                        Velocity.X = 0;
+                    isMoving = false;
+                }
+            }
+            if (isMoving == false)
+            {
+
+                if ((gameTime.TotalGameTime.Seconds + (gameTime.TotalGameTime.Minutes * 60)) - GameTimer >= Duration)
+                {
+                    if (Position.Y > 400)
+                    {
+
+                        Velocity.Y = 1;
+                    }
+                    else if (Position.Y < 80)
+                        Velocity.Y = -1;
+
+                    else if (Position.X < 50)
+                        Velocity.X = -1;
+                }
+            }
+#endif
 
 
             Position += Velocity;
@@ -110,6 +199,7 @@ namespace SantellosEscape.Screens.GameScreens.ShooterGallery
 
         public void Checkbounds()
         {
+#if WINDOWS
             if (Position.X >= 512)
             {
                 Position.X = 510;
@@ -120,7 +210,32 @@ namespace SantellosEscape.Screens.GameScreens.ShooterGallery
                 Position.X = -40;
                 Velocity.X = 0;
             }
+            else if (Position.Y < -42)
+            {
+                Position.Y = -40;
+                Velocity.Y = 0;
+            }
+        
+#endif
+#if ZUNE
+            if (Position.Y >= 512)
+            {
+                Position.Y = 510;
+                Velocity.Y = 0;
+            }
+            else if (Position.Y < -42)
+            {
+                Position.Y = -40;
+                Velocity.Y = 0;
+            }
+            else if (Position.X < -42)
+            {
+                Position.X = -40;
+                Velocity.X = 0;
+            }
+#endif
         }
+
 
 
         //end of class

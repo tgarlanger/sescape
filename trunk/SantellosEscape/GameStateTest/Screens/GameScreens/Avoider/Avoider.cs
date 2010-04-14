@@ -143,7 +143,14 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
                     enemy.CheckCollisions(ref m_player1);
                 }
             }
-            else if (!m_bGameActive || m_bFirstLaunch)
+
+            if (!m_player1.Alive)
+            {
+                m_bGameActive = false;
+                m_lstEnemies.Clear();
+            }
+            
+            if (!m_bGameActive || m_bFirstLaunch)
             {
 #if !ZUNE
                 MouseState mState = Mouse.GetState();
@@ -171,72 +178,27 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 #else
                 TouchCollection touchCollection = TouchPanel.GetState();
 
-                if (touchCollection.Count > 0)
+                if (m_bFirstLaunch)
                 {
-                    m_bFirstLaunch = false;
-
-                    m_bGameActive = true;
-
-                    Reset();
-                }
-                /*
-                TouchCollection touchCollection = TouchPanel.GetState();
-                if (touchCollection.Count > 0)
-                {
-                    if (m_bFirstLaunch)
+                    if (touchCollection.Count == 0)
                     {
-                        if (touchCollection.Count == 0) //if (mState.LeftButton == ButtonState.Released)
-                        {
-                            m_bFirstLaunch = false;
-                        }
-                    }
-                    else if (touchCollection[0].State == TouchLocationState.Pressed || touchCollection[0].State == TouchLocationState.Moved) //else if (mState.LeftButton == ButtonState.Pressed)
-                    {
-                        if (m_recBackArrow.Contains(touchCollection[0].Position.X, touchCollection[0].Position.Y)) // if (m_recBackArrow.Contains(mState.X, mState.Y))
-                        {
-                            ScreenState = ScreenState.Hidden;
-                        }
-                        else
-                        {
-                            m_bGameActive = true;
-
-                            Reset();
-                        }
+                        m_bFirstLaunch = false;
                     }
                 }
-                */
-                /*
-                TouchCollection collection = TouchPanel.GetState();
-
-                if (collection.Count == 1)
+                if (touchCollection.Count > 0)
                 {
-                    m_bFirstLaunch = false;
-
-                    if (new Rectangle((int)collection[0].Position.X, (int)collection[0].Position.Y, 1, 1).Intersects(m_recBackArrow)))
+                    if (m_recBackArrow.Contains((int)touchCollection[0].Position.X,(int)touchCollection[0].Position.Y))
                     {
-                        if (collection[0].State == TouchLocationState.Released)
-                        {
-                            ScreenState = ScreenState.Hidden;
-                        }
+                        ScreenState = ScreenState.Hidden;
                     }
-
-                    if (collection[0].State == TouchLocationState.Released)// && !firstRun)
+                    else
                     {
-                        //gameBegin = gameTime.TotalRealTime.Seconds + (gameTime.TotalRealTime.Minutes * 60);
-                        //resetGame();
-
                         m_bGameActive = true;
 
                         Reset();
                     }
                 }
-                */
 #endif
-            }
-
-            if (!m_player1.Alive)
-            {
-                m_bGameActive = false;
             }
 
             base.Update(gameTime);
@@ -248,9 +210,11 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
         /// <param name="gameTime">The game time.</param>
         public override void Draw(GameTime gameTime)
         {
+            m_sprBatch.Begin();
+
             if (m_player1.Alive /*&& m_bGameActive*/)
             {
-                m_sprBatch.Begin();
+                //m_sprBatch.Begin();
 
                 m_sprBatch.Draw(m_texBackground, new Vector2(0, 0), Color.White);
 
@@ -263,7 +227,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 
                 m_sprBatch.DrawString(m_sprFont, "Score: " + m_iScore.ToString(), new Vector2(0, 480 - 20), Color.Yellow);
 
-                m_sprBatch.End();
+                //m_sprBatch.End();
 
                 base.Draw(gameTime);
             }
@@ -271,21 +235,24 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             {
                 Vector2 mousepos = new Vector2(Mouse.GetState().X,Mouse.GetState().Y);
 
-                m_sprBatch.Begin();
+                //m_sprBatch.Begin();
 
                 m_sprBatch.Draw(m_texBackground, Vector2.Zero, Color.White);
 
                 m_sprBatch.Draw(m_texOverLay, Vector2.Zero, Color.White);
 
                 m_sprBatch.Draw(m_texBackArrow, /*new Rectangle(0, 480 - 50, 50, 50)*/ m_recBackArrow, new Rectangle(50 , 0, 50, 50), Color.White);
-                
+#if !ZUNE
                 m_sprBatch.Draw(m_texCursor, mousepos, Color.White);
+#endif
 
-                m_sprBatch.End();
+                //m_sprBatch.End();
             }
 #if ZUNE
-            m_sprBatch.DrawString(m_sprFont, "COUNT: " + TouchPanel.GetState().Count.ToString(), Vector2.Zero, Color.White);
+            //m_sprBatch.DrawString(m_sprFont, "COUNT: " + TouchPanel.GetState().Count.ToString(), Vector2.Zero, Color.White);
 #endif
+
+            m_sprBatch.End();
         }
 
         private void Reset()

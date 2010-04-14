@@ -127,15 +127,28 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
                 m_vecVelocity = Vector2.Zero;
             }
 #else
-            m_vecVelocity = new Vector2(7*Accelerometer.GetState().Acceleration.X);
-
-            if ( Accelerometer.GetState().Acceleration.X > 0 )
+            if (Accelerometer.GetState().Acceleration.X > .15 && m_vecPosition.X < (272 - 2 - (m_texImage.Width / m_iMaxFrames)))
             {
                 m_plyrDirection = PlayerDirection.Right;
+                m_vecVelocity = new Vector2(5, 0);
             }
-            else if ( Accelerometer.GetState().Acceleration.X < 0 )
+            else if (Accelerometer.GetState().Acceleration.X < -0.15 && m_vecPosition.X > 2)
             {
                 m_plyrDirection = PlayerDirection.Left;
+                m_vecVelocity = new Vector2(-5, 0);
+            }
+            else
+            {
+                m_vecVelocity = Vector2.Zero;
+            }
+
+            if (m_vecPosition.X > (272 - 2 - (m_texImage.Width / m_iMaxFrames)))
+            {
+                m_vecPosition.X = (272 - 2 - (m_texImage.Width / m_iMaxFrames));
+            }
+            else if (m_vecPosition.X < 2)
+            {
+                m_vecPosition.X = 2;
             }
 #endif
 #if !ZUNE
