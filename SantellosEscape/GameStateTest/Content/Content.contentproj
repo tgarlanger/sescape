@@ -320,7 +320,7 @@
     <Compile Include="ShooterGallery\Items\Gun1.mp3">
       <Name>Gun1</Name>
       <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
+      <Processor>SoundEffectProcessor</Processor>
     </Compile>
     <Compile Include="ShooterGallery\Items\Menu.png">
       <Name>Menu</Name>

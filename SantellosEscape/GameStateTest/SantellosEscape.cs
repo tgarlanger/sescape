@@ -46,7 +46,7 @@ namespace GameStateTest
             //m_menuScreen = new MenuScreen();
 
           //  m_iActiveScreenIndex = 0;
-
+      
             m_lstGameScreens.Add(new MenuScreen());
             m_lstGameScreens[0].ScreenState = ScreenState.Active;
             m_lstGameScreens[0].ScreenType = ScreenType.Menu;
@@ -203,6 +203,9 @@ namespace GameStateTest
                 case ScreenOrientation.Landscape:
                     graphics.PreferredBackBufferHeight = 272;
                     graphics.PreferredBackBufferWidth = 480;
+#if ZUNE
+                   // RenderTarget2D 
+#endif
                     graphics.ApplyChanges();
                     break;
                 case ScreenOrientation.Portrait:
