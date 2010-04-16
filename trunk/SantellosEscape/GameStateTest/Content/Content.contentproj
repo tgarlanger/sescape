@@ -362,11 +362,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="ShooterGallery\Items\ZMenu.png">
-      <Name>ZMenu</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="ShooterGallery\Items\ZMonitor.png">
       <Name>ZMonitor</Name>
       <Importer>TextureImporter</Importer>
@@ -374,6 +369,13 @@
     </Compile>
     <Compile Include="ShooterGallery\Items\ZWindows.png">
       <Name>ZWindows</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ShooterGallery\Items\ZMenu.png">
+      <Name>ZMenu</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
