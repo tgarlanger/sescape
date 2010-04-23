@@ -273,7 +273,7 @@ namespace SantellosEscape.Screens.GameScreens.ShooterGallery
 
                                     if (DoubleScore)
                                     {
-                                        Score += 2450;
+                                        Score += 50;
                                     }
                                     if (Score == 2500)
                                     {
