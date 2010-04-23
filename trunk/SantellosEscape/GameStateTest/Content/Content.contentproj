@@ -376,6 +376,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Avoider\Graphics\Devil.png">
+      <Name>Devil</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="ShooterGallery\Sounds\SantellosEscapeShooter.mp3">
       <Name>SantellosEscapeShooter</Name>
       <Importer>Mp3Importer</Importer>
