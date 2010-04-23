@@ -127,12 +127,12 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
                 m_vecVelocity = Vector2.Zero;
             }
 #else
-            if (Accelerometer.GetState().Acceleration.X > .15 && m_vecPosition.X < (272 - 2 - (m_texImage.Width / m_iMaxFrames)))
+            if (Accelerometer.GetState().Acceleration.X > .05 && m_vecPosition.X < (272 - 2 - (m_texImage.Width / m_iMaxFrames)))
             {
                 m_plyrDirection = PlayerDirection.Right;
                 m_vecVelocity = new Vector2(5, 0);
             }
-            else if (Accelerometer.GetState().Acceleration.X < -0.15 && m_vecPosition.X > 2)
+            else if (Accelerometer.GetState().Acceleration.X < -0.05 && m_vecPosition.X > 2)
             {
                 m_plyrDirection = PlayerDirection.Left;
                 m_vecVelocity = new Vector2(-5, 0);

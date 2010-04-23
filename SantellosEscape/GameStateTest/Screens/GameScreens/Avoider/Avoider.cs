@@ -44,9 +44,11 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 
         private Rectangle m_recBackArrow;
 
+        private int m_iHighScore;
+
         private bool m_bFirstLaunch;
 
-        // ***** CHANGE THE 3 TO THE NUMBER OF TEXTURES IN THE PROJECTILES FOLDER
+        // ***** CHANGE THE VALUE TO THE NUMBER OF TEXTURES IN THE PROJECTILES FOLDER
         private const int NUM_PROJECTILE_TEXTURES = 4;
 
         /// <summary>
@@ -66,6 +68,8 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             m_bGameActive = false;
 
             m_bFirstLaunch = true;
+
+            m_iHighScore = 0;
         }
 
         /// <summary>
@@ -152,6 +156,8 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             {
                 m_bGameActive = false;
                 m_lstEnemies.Clear();
+
+                m_iHighScore = m_iScore;
             }
             
             if (!m_bGameActive || m_bFirstLaunch)
@@ -250,6 +256,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 #if !ZUNE
                 m_sprBatch.Draw(m_texCursor, mousepos, Color.White);
 #endif
+                m_sprBatch.DrawString(m_sprFont, "High Score: " + m_iHighScore.ToString(), new Vector2(100, 480 - 30), Color.Yellow);
 
                 //m_sprBatch.End();
             }
@@ -273,16 +280,17 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 
         private void AddEnemy()
         {
-            int ifireRate = m_rndRand.Next(50, 150) * m_rndRand.Next(4, 10) - m_rndRand.Next(200, 500);
+            int ifireRate = m_rndRand.Next(50, 150) * m_rndRand.Next(4, 7) - m_rndRand.Next(300, 500);
 
-            if (ifireRate < 500)
+            
+            if (ifireRate < 0)
             {
                 ifireRate += 500;
             }
 
             m_lstEnemies.Add(new Enemy(m_texEnemy,
                             new Vector2(m_rndRand.Next(25, 272 - m_texEnemy.Width - 25), 10),
-                            new Vector2(1, 0),
+                            new Vector2(m_rndRand.Next(1,3), 0),
                             ifireRate,
                             m_lstProjectileTextures));
 
