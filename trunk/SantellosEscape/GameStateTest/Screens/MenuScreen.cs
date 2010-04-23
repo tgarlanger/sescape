@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace SantellosEscape.Screens
 {
@@ -20,6 +21,8 @@ namespace SantellosEscape.Screens
         
         private int[] frame;
         private Vector2 frameSize;
+
+        Song m_songBackgroundMusic;
 
         public MenuScreen()
         {
@@ -47,11 +50,20 @@ namespace SantellosEscape.Screens
             Cursor = Content.Load<Texture2D>("FallDown/Textures/cursor");
             Background = Content.Load<Texture2D>("GameState/Graphics/Menu/MenuBackground");
 
+            MediaPlayer.IsRepeating = true;
+            m_songBackgroundMusic = Content.Load<Song>("GameState/Sounds/SantellosEscapeMenu");
+            MediaPlayer.Play(m_songBackgroundMusic);
+
             base.LoadContent(Content, m_sprBatch);
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (MediaPlayer.State != MediaState.Playing)
+            {
+                MediaPlayer.Play(m_songBackgroundMusic);
+            }
+
             bool anySelected = false;
 #if ZUNE
             TouchCollection collection = TouchPanel.GetState();
@@ -68,6 +80,8 @@ namespace SantellosEscape.Screens
                             frame[i] = 1;
                         else if (collection[0].State == TouchLocationState.Released)
                         {
+                            MediaPlayer.Stop();
+
                             SelectedItem = i;
                             anySelected = true;
                             break;
@@ -99,8 +113,11 @@ namespace SantellosEscape.Screens
             }
 #endif
             if (!anySelected)
+            {
                 SelectedItem = -1;
+            }
         }
+
         public override void Draw(GameTime gameTime)
         {
             m_sprBatch.Begin();

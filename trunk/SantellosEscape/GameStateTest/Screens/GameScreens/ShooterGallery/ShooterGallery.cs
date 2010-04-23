@@ -168,6 +168,9 @@ namespace SantellosEscape.Screens.GameScreens.ShooterGallery
             //m_sprBatch.GraphicsDevice.Viewport.Height = 272;
             //m_sprBatch.GraphicsDevice.Viewport.Width = 480;
 
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(Content.Load<Song>("ShooterGallery/Sounds/SantellosEscapeShooter"));
+
             //rec1.LoadContent();
             // TODO: use this.Content to load your game content here
 #if WINDOWS
@@ -363,7 +366,8 @@ namespace SantellosEscape.Screens.GameScreens.ShooterGallery
                 {
                     Rectangle touchRec = new Rectangle((int)touchCollection[0].Position.X, (int)touchCollection[0].Position.Y, 1, 1);
 
-                    if (touchRec.Intersects(new Rectangle(0, 272 - 50, 50, 50)))
+                    //if (touchRec.Intersects(new Rectangle(0, 272 - 50, 50, 50)))
+                    if (touchRec.Intersects(new Rectangle(50,50,50,50)))
                     {
                         arrowFrame = 1;
                         if (touchCollection[0].State == TouchLocationState.Pressed)

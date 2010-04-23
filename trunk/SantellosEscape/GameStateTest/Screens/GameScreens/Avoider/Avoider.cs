@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace SantellosEscape.Screens.GameScreens.Avoider
 {
@@ -101,6 +102,9 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 
             m_recBackArrow = new Rectangle(0, 480 - 50, 50, 50);
 
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(Content.Load<Song>("Avoider/Sounds/SantellosEscapeAvoider"));
+
             for (int index = 0; index < NUM_PROJECTILE_TEXTURES; index++)
             {
                 m_lstProjectileTextures.Add(Content.Load<Texture2D>("Avoider/Projectiles/" + index.ToString())); 
@@ -189,6 +193,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
                 {
                     if (m_recBackArrow.Contains((int)touchCollection[0].Position.X,(int)touchCollection[0].Position.Y))
                     {
+                        MediaPlayer.Stop();
                         ScreenState = ScreenState.Hidden;
                     }
                     else
