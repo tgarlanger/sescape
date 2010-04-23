@@ -102,6 +102,7 @@ namespace SantellosEscape.Screens
                     frame[i] = 1;
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {
+                        MediaPlayer.Stop();
 
                         SelectedItem = i;
                         anySelected = true;

@@ -154,7 +154,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 #if !ZUNE
             if (keyState.IsKeyDown(Keys.Right) || keyState.IsKeyDown(Keys.Left))
 #else
-            if (Accelerometer.GetState().Acceleration.X != 0)
+            if (Math.Abs(Accelerometer.GetState().Acceleration.X) > .05)
 #endif
             {
                 if (m_iTicks > m_iFrameRate)

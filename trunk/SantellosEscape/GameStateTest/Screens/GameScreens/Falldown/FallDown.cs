@@ -120,7 +120,7 @@ namespace SantellosEscape.Screens.GameScreens.FallDown
             Background[1].Texture = backGroundTexture;
 
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume = MediaPlayer.Volume / 20;
+            //MediaPlayer.Volume = MediaPlayer.Volume / 20;
             MediaPlayer.Play(Content.Load<Song>("Falldown/Sounds/soundtrack"));
 
             SoundEffects.Add(Content.Load<SoundEffect>("Falldown/Sounds/freeze"));
