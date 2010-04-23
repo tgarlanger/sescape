@@ -80,9 +80,9 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 
             Texture2D texTemp = Content.Load<Texture2D>("Avoider/Graphics/spritesheet");
 
-            m_texEnemy = Content.Load<Texture2D>("Avoider/Devil");
+            m_texEnemy = Content.Load<Texture2D>("Avoider/Graphics/Devil");
 
-            m_texBackground = Content.Load<Texture2D>("Avoider/background2");
+            m_texBackground = Content.Load<Texture2D>("Avoider/Graphics/background2");
 
             m_sprFont = Content.Load<SpriteFont>("Avoider/Fonts/SpriteFont1");
 

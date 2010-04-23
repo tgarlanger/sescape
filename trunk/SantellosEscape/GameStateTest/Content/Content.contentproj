@@ -66,20 +66,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Avoider\Devil.png">
+    <Compile Include="Avoider\Graphics\Devil.png">
       <Name>Devil</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Avoider\Smiley.png">
-      <Name>Smiley</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Avoider\background.png">
-      <Name>background</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -295,7 +283,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Avoider\background2.png">
+    <Compile Include="Avoider\Graphics\background2.png">
       <Name>background2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
