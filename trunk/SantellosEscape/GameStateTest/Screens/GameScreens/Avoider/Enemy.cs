@@ -21,6 +21,8 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
 
         private SoundEffect m_sndThrow;
 
+        private int m_iTicks;
+
         public SoundEffect ThrowSound
         {
             get
@@ -42,6 +44,7 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             m_lstProjectiles = new List<Projectile>();
             m_lstProjectileTextures = new List<Texture2D>();
             m_rndRand = new Random(5280);
+            m_iTicks = 0;
         }
 
         public Enemy(Texture2D texImage, Vector2 vecPosition, 
@@ -55,11 +58,14 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
             m_lstProjectiles = new List<Projectile>();
             m_lstProjectileTextures = lstProjectileTextures;
             m_rndRand = new Random(5280);
+            m_iTicks = 0;
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            m_iTicks++;
 
             if (m_vecPosition.X > (272 - 5 - m_texImage.Width) ||
                 m_vecPosition.X < 5)
@@ -89,12 +95,15 @@ namespace SantellosEscape.Screens.GameScreens.Avoider
                 m_lstProjectiles[index].Update(gameTime);
             }
             
-            if (gameTime.TotalGameTime.Milliseconds % m_iShotFrequency == 0)
+            //if (gameTime.TotalGameTime.Milliseconds % m_iShotFrequency == 0)
+            if ( m_iTicks > m_iShotFrequency )
             {
                 m_lstProjectiles.Add(new Projectile(
                     m_lstProjectileTextures[m_rndRand.Next(0,m_lstProjectileTextures.Count)],
                     m_vecPosition+new Vector2(0,m_texImage.Height+5),
                     new Vector2(0,m_rndRand.Next(5,15))));
+
+                m_iTicks = 0;
 
                 m_sndThrow.Play();
             }
