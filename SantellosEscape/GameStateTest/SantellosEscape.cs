@@ -140,7 +140,14 @@ namespace GameStateTest
         {
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            {
+                if (MediaPlayer.State == MediaState.Playing)
+                {
+                    MediaPlayer.Stop();
+                }
+
                 this.Exit();
+            }
 
             bool anyGameActive = false;
             foreach (Screen gs in m_lstGameScreens)
@@ -154,6 +161,11 @@ namespace GameStateTest
                         {
                             if (((MenuScreen)gs).SelectedItem == 4)
                             {
+                                if (MediaPlayer.State == MediaState.Playing)
+                                {
+                                    MediaPlayer.Stop();
+                                }
+
                                 this.Exit();
                                 break;
                             }
