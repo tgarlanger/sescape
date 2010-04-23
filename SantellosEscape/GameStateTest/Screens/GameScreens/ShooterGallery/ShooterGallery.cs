@@ -282,7 +282,7 @@ namespace SantellosEscape.Screens.GameScreens.ShooterGallery
                                     {
 
                                         PlayState = "Menu";
-                                        firstRun = false;
+                                        firstRun = true;
                                     }
 
                                 }
@@ -335,13 +335,14 @@ namespace SantellosEscape.Screens.GameScreens.ShooterGallery
             else if (PlayState == "Menu")
             {
                 Rectangle mouseRec = new Rectangle(Mouse.GetState().X, Mouse.GetState().Y, 1, 1);
-                if (mouseRec.Intersects(new Rectangle(0, 272 - 50, 50, 50)))
+                if (mouseRec.Intersects(new Rectangle(0, 0 , 50, 50)))
                 {
-                    arrowFrame = 1;
+                    //arrowFrame = 1;
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {
                         MediaPlayer.Stop();
                         ScreenState = ScreenState.Hidden;
+                        ScreenOrientation = ScreenOrientation.Portrait;
                     }
                 }
                 else
@@ -497,7 +498,13 @@ namespace SantellosEscape.Screens.GameScreens.ShooterGallery
 #else
             m_sprBatch.Draw(ZMenu, Vector2.Zero, Color.White);
 #endif
+#if WINDOWS
+             m_sprBatch.Draw(BackArrow, new Rectangle(50*arrowFrame , 0 , 50, 50), new Rectangle(50 *arrowFrame, 0, 50, 50), Color.White,0.0f, Vector2.Zero, SpriteEffects.None, 1);
+#endif
+
+#if ZUNE
             m_sprBatch.Draw(BackArrow, new Rectangle(50, 50, 50, 50), new Rectangle(50 * arrowFrame, 0, 50, 50), Color.White,1.57f, Vector2.Zero, SpriteEffects.None, 1);
+#endif
             //m_sprBatch.Draw(, new Vector2(0, 0), Color.White);
         }
         private void resetGame()

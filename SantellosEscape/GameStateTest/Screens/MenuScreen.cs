@@ -59,6 +59,8 @@ namespace SantellosEscape.Screens
 
         public override void Update(GameTime gameTime)
         {
+            ScreenOrientation = ScreenOrientation.Portrait;
+  
             if (MediaPlayer.State != MediaState.Playing)
             {
                 MediaPlayer.Play(m_songBackgroundMusic);

@@ -154,6 +154,8 @@ namespace GameStateTest
             {
                 if (gs.ScreenState == ScreenState.Active)
                 {
+                    SetOrientation(gs.ScreenOrientation);
+
                     anyGameActive = true;
                     if (gs.ScreenType == ScreenType.Menu && gs.Name.Equals("Main Menu"))
                     {
